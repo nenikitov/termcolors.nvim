@@ -22,8 +22,10 @@ return {
 
     --#region Default highlight groups
     Normal = {
-        ctermfg = t.primary.foreground, ctermbg = t.primary.background,
         fg = g.primary.foreground, bg = g.primary.background
+    },
+    NonText = {
+        ctermfg = t.normal.white
     },
     Comment = {
         ctermfg = t.normal.green,
@@ -33,7 +35,7 @@ return {
         ctermfg = t.normal.blue,
     },
     Identifier = {
-        ctermfg = t.bright.cyan
+        ctermfg = t.normal.cyan
     },
     Statement = {
         ctermfg = t.normal.magenta,
@@ -83,20 +85,80 @@ return {
         ctermfg = t.bright.yellow,
         cterm = { bold = true }
     },
-    Delimiter = { link = 'Special' },
+    Delimiter = { link = 'Normal' },
     SpecialComment = { link = 'Comment', cterm = { bold = true } },
     Debug = { link = 'Special' },
     --#endregion
 
 
-
-
-
-    ColorColumn = {
-        ctermbg = t.normal.black,
+    --#region Treesitter highlight
+    ['@field'] = {
+        ctermfg = t.bright.cyan
     },
+    --#endregion
+
+
+    --#region Columns
+    LineNr = {
+        ctermfg = t.normal.white
+    },
+    CursorLineNr = {
+        ctermbg = t.normal.black
+    },
+    SignColumn = {
+        ctermfg = t.normal.white
+    },
+    --#endregion
+
+    --#region GitSigns
+    GitSignsAdd = {
+        ctermfg = t.normal.green
+    },
+    GitSignsChange = {
+        ctermfg = t.normal.blue
+    },
+    GitSignsDelete = {
+        ctermfg = t.normal.red
+    },
+    --#endregion
+
+    --#region Diagnostics
+    DiagnosticError = {
+        ctermfg = t.normal.red
+    },
+    DiagnosticWarn = {
+        ctermfg = t.normal.yellow
+    },
+    DiagnosticInfo = {
+        ctermfg = t.normal.blue
+    },
+    DiagnosticHint = {
+        ctermfg = t.normal.white,
+        cterm = { undercurl = true }
+    },
+    DiagnosticUnderlineError = {
+        cterm = { undercurl = true },
+        sp = g.normal.red,
+    },
+    DiagnosticUnderlineWarn = {
+        cterm = { undercurl = true },
+        sp = g.normal.yellow,
+    },
+    DiagnosticUnderlineInfo = {
+        cterm = { undercurl = true },
+        sp = g.normal.blue,
+    },
+    DiagnosticUnderlineHint = {
+        cterm = { undercurl = true },
+        sp = g.normal.white,
+    },
+    --#endregion
+
+
+    --#region Other
     Underlined = {
         cterm = { underline = true }
     },
+    --#endregion
 }
 
