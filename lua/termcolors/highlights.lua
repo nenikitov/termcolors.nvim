@@ -1,7 +1,57 @@
 local c = require('termcolors.colors')
+local u = require('termcolors.utils')
 local t = c.term
 local g = c.gui
 
+
+local function get_highlight(name)
+    -- Get styles
+    local hl = {}
+    local term = vim.api.nvim_get_hl_by_name(name, false)
+    local gui = vim.api.nvim_get_hl_by_name(name, true)
+
+    -- Copy GUI styles
+    if gui.foreground ~= nil then
+        hl.fg, gui.foreground = u.int_to_hex(gui.foreground), nil
+    end
+    if gui.background ~= nil then
+        hl.bg, gui.background = u.int_to_hex(gui.background), nil
+    end
+    if gui.special ~= nil then
+        hl.sp, gui.special = u.int_to_hex(gui.special), nil
+    end
+    for k, v in pairs(gui) do
+        hl[k] = v
+    end
+
+    -- Copy Term styles
+    hl.ctermfg, term.foreground = term.foreground, nil
+    hl.ctermbg, term.background = term.background, nil
+    hl.cterm = {}
+    for k, v in pairs(term) do
+        hl.cterm[k] = v
+    end
+
+    -- Remove unneeded marker of an empty dictionary
+    -- https://github.com/neovim/neovim/issues/20504#issuecomment-1269765400
+    hl[true] = nil
+
+    return hl
+end
+
+local function merge_highlights(...)
+    local args = { ... }
+
+    return function()
+        local result = {}
+        for _, v in ipairs(args) do
+            -- Copy all values from a highlight if the name is passed
+            local current = type(v) == 'string' and get_highlight(v) or v
+            result = vim.tbl_deep_extend('force', result, current)
+        end
+        return result
+    end
+end
 
 
 return {
@@ -12,7 +62,6 @@ return {
     },
     CursorLine = {
         ctermbg = t.normal.black,
-        bg = g.normal.black
     },
     CursorColumn = {
         ctermbg = t.normal.black,
@@ -22,17 +71,20 @@ return {
 
     --#region Default highlight groups
     Normal = {
-        fg = g.primary.foreground, bg = g.primary.background
+        -- fg = g.primary.foreground, bg = g.primary.background
     },
     NonText = {
         ctermfg = t.normal.white
     },
+    Error = {
+        ctermfg = t.normal.red
+    },
     Comment = {
         ctermfg = t.normal.green,
-        cterm = { italic = true }
+        cterm = { italic = true },
     },
     Constant = {
-        ctermfg = t.normal.blue,
+        ctermfg = t.bright.blue,
     },
     Identifier = {
         ctermfg = t.normal.cyan
@@ -44,7 +96,7 @@ return {
         ctermfg = t.normal.magenta
     },
     Type = {
-        ctermfg = t.normal.blue,
+        ctermfg = t.bright.blue,
     },
     Special = {
         ctermfg = t.normal.magenta
@@ -61,9 +113,7 @@ return {
     Number = {
         ctermfg = t.bright.green
     },
-    Boolean = {
-        ctermfg = t.normal.blue
-    },
+    Boolean = { link = 'Constant' },
     Function = {
         ctermfg = t.bright.yellow
     },
@@ -86,7 +136,7 @@ return {
         cterm = { bold = true }
     },
     Delimiter = { link = 'Normal' },
-    SpecialComment = { link = 'Comment', cterm = { bold = true } },
+    SpecialComment = { link = 'Comment' },
     Debug = { link = 'Special' },
     --#endregion
 
@@ -119,6 +169,24 @@ return {
     },
     GitSignsDelete = {
         ctermfg = t.normal.red
+    },
+    GitSignsAddLn = {
+        ctermbg = t.normal.green
+    },
+    GitSignsChangeLn = {
+        ctermbg = t.normal.blue
+    },
+    GitSignsDeleteLn = {
+        ctermbg = t.normal.red
+    },
+    GitSignsAddPreview = {
+        ctermbg = t.normal.green
+    },
+    GitSignsChangePreview = {
+        ctermbg = t.normal.blue
+    },
+    GitSignsDeletePreview = {
+        ctermbg = t.normal.red
     },
     --#endregion
 
@@ -154,11 +222,38 @@ return {
     },
     --#endregion
 
+    -- #region Bufferline
+    BufferLineFill = {
+        ctermbg = t.normal.black
+    },
+    -- Modified circle
+    BufferLineModified = {
+        ctermfg = t.normal.yellow
+    },
+    BufferLineModifiedVisible = { link = 'BufferLineModified' },
+    BufferLineModifiedSelected = { link = 'BufferLineModified' },
+    -- Normal
+    BufferLineBufferSelected = {
+        bold = true,
+        cterm = { bold = true, underline = true }
+    },
+    -- Error
+    BufferLineError = { link = 'DiagnosticError' },
+    BufferLineErrorSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineError'),
+    BufferLineErrorVisble = { link = 'BufferLineErrorSelected' },
+    --[[ BufferLineErrorSelected = { link = 'BufferLineError' },
+    BufferLineDiagnosticError = { link = 'DiagnosticError' },
+    BufferLineErrorDiagnosticVisible = { link = 'BufferLineDiagnosticError' },
+    BufferLineErrorDiagnosticSelected = { link = 'BufferLineDiagnosticError' }, ]]
+    --#endregion
 
     --#region Other
     Underlined = {
         cterm = { underline = true }
     },
+    Visual = {
+        ctermbg = t.normal.blue
+    }
     --#endregion
 }
 
