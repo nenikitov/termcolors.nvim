@@ -6,12 +6,12 @@ return {
         },
         normal = {
             black   = 'Black',
-            red     = 'DarkBlue',
+            red     = 'DarkRed',
             green   = 'DarkGreen',
-            yellow  = 'DarkCyan',
-            blue    = 'DarkRed',
+            yellow  = 'DarkYellow',
+            blue    = 'DarkBlue',
             magenta = 'DarkMagenta',
-            cyan    = 'DarkYellow',
+            cyan    = 'DarkCyan',
             white   = 'Gray'
         },
         bright = {
@@ -21,7 +21,7 @@ return {
             yellow  = 'Yellow',
             blue    = 'Blue',
             magenta = 'Magenta',
-            cyan    = 'Cyna',
+            cyan    = 'Cyan',
             white   = 'White'
         }
     },
