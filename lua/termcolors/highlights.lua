@@ -161,6 +161,7 @@ return {
     --#endregion
 
     --#region GitSigns
+    -- Signs
     GitSignsAdd = {
         ctermfg = t.normal.green
     },
@@ -170,15 +171,14 @@ return {
     GitSignsDelete = {
         ctermfg = t.normal.red
     },
-    GitSignsAddLn = {
-        ctermbg = t.normal.green
-    },
-    GitSignsChangeLn = {
-        ctermbg = t.normal.blue
-    },
-    GitSignsDeleteLn = {
-        ctermbg = t.normal.red
-    },
+    GitSignsUntracked = { link = 'GitSignsAdd' },
+    GitSignsTopdelete = { link = 'GitSignsDelete' },
+    GitSignsChangedelete = { link = 'GitSignsDelete' },
+    -- Line numbers
+    GitSignsAddLn = { link = 'GitSignsAdd' },
+    GitSignsChangeLn = { link = 'GitSignsChange' },
+    GitSignsDeleteLn = { link = 'GitSignsDelete' },
+    -- Preview
     GitSignsAddPreview = {
         ctermbg = t.normal.green
     },
@@ -233,18 +233,42 @@ return {
     BufferLineModifiedVisible = { link = 'BufferLineModified' },
     BufferLineModifiedSelected = { link = 'BufferLineModified' },
     -- Normal
+    BufferLineBuffer = {
+        ctermbg = t.normal.black
+    },
+    BufferLineBufferVisible = {
+    },
     BufferLineBufferSelected = {
-        bold = true,
-        cterm = { bold = true, underline = true }
+        cterm = { bold = true, italic = true },
     },
     -- Error
     BufferLineError = { link = 'DiagnosticError' },
+    BufferLineErrorVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineError'),
     BufferLineErrorSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineError'),
-    BufferLineErrorVisble = { link = 'BufferLineErrorSelected' },
-    --[[ BufferLineErrorSelected = { link = 'BufferLineError' },
-    BufferLineDiagnosticError = { link = 'DiagnosticError' },
-    BufferLineErrorDiagnosticVisible = { link = 'BufferLineDiagnosticError' },
-    BufferLineErrorDiagnosticSelected = { link = 'BufferLineDiagnosticError' }, ]]
+    BufferLineErrorDiagnostic = { link = 'BufferLineError' },
+    BufferLineErrorDiagnosticVisible = { link = 'BufferLineErrorVisible' },
+    BufferLineErrorDiagnosticSelected = { link = 'BufferLineErrorSelected' },
+    -- Warning
+    BufferLineWarning = { link = 'DiagnosticWarn' },
+    BufferLineWarningVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineWarning'),
+    BufferLineWarningSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineWarning'),
+    BufferLineWarningDiagnostic = { link = 'BufferLineWarning' },
+    BufferLineWarningDiagnosticVisible = { link = 'BufferLineWarningVisible' },
+    BufferLineWarningDiagnosticSelected = { link = 'BufferLineWarningSelected' },
+    -- Info
+    BufferLineInfo = { link = 'DiagnosticInfo' },
+    BufferLineInfoVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineInfo'),
+    BufferLineInfoSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineInfo'),
+    BufferLineInfoDiagnostic = { link = 'BufferLineInfo' },
+    BufferLineInfoDiagnosticVisible = { link = 'BufferLineInfoVisible' },
+    BufferLineInfoDiagnosticSelected = { link = 'BufferLineInfoSelected' },
+    -- Hint
+    BufferLineHint = { link = 'DiagnosticHint' },
+    BufferLineHintVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineHint'),
+    BufferLineHintSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineHint'),
+    BufferLineHintDiagnostic = { link = 'BufferLineHint' },
+    BufferLineHintDiagnosticVisible = { link = 'BufferLineHintVisible' },
+    BufferLineHintDiagnosticSelected = { link = 'BufferLineHintSelected' },
     --#endregion
 
     --#region Other

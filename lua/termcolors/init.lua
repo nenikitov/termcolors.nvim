@@ -26,7 +26,6 @@ function T.setup(options_user)
         end
     end
     for name, highlight in pairs(highlights_to_lateinit) do
-        print('lua vim.api.nvim_set_hl(0, \'' .. name .. '\', ' .. vim.inspect(highlight(), { newline = ' ', indent = '' }) .. ')')
         vim.api.nvim_set_hl(0, name, highlight())
     end
 end
