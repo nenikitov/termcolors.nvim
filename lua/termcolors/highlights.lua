@@ -3,31 +3,85 @@ local t = c.term
 local g = c.gui
 
 
+--#region Types
+
+---@class CTerm
+---@field bold boolean Bold.
+---@field underline boolean Underline.
+---@field undercurl boolean Curly underline.
+---@field underdouble boolean Double underline.
+---@field underdotted boolean Dotted underline.
+---@field underdashed boolean Dashed underline.
+---@field strikethrough boolean Strike through.
+---@field reverse boolean Reverse background and foreground colors.
+---@field italic boolean Italicize.
+
+---@alias CTermColor number | nil | 'NONE' | 'Black' | 'DarkRed' | 'DarkGreen' | 'DarkYellow' | 'DarkBlue' | 'DarkMagenta' | 'DarkCyan' | 'Gray' | 'DarkGray' | 'Red' | 'Green' | 'Yellow' | 'Blue' | 'Magenta' | 'Cyan' | 'White'
+
+---@class HighlightTable
+---@field ctermfg CTermColor Terminal text color.
+---@field ctermbg CTermColor Terminal background color.
+---@field cterm CTerm Terminal font modifiers.
+---@field fg string GUI text color ('#RRGGBB' or color name).
+---@field bg string GUI background color ('#RRGGBB' or color name).
+---@field sp string GUI special color ('#RRGGBB' or color name).
+---@field bold boolean Bold.
+---@field underline boolean Underline.
+---@field undercurl boolean Curly underline.
+---@field underdouble boolean Double underline.
+---@field underdotted boolean Dotted underline.
+---@field underdashed boolean Dashed underline.
+---@field strikethrough boolean Strike through.
+---@field reverse boolean Reverse background and foreground colors.
+---@field italic boolean Italicize.
+
+---@class HighlightLink
+---@field link string Name of another highlight group to link to.
+
+---@alias HighlightFunction fun(): Highlight
+
+---@alias Highlight HighlightTable | HighlightLink | HighlightFunction
+
+--#endregion
+
+--- Container for all highlights.
+---@type {[string]: Highlight}
 local highlights = {}
 
-local function resolve_highlight(highlight)
-    if type(highlights[highlight]) == 'function' then
-        highlights[highlight] = highlights[highlight]()
+--- Resolve merged highlights.
+---@param name string Name of the highlight group.
+---@return Highlight Resolved highlight group.
+local function resolve_highlight(name)
+    if type(highlights[name]) == 'function' then
+        highlights[name] = highlights[name]()
     end
-    return highlights[highlight]
+    return highlights[name]
 end
 
+--- Resolve all existing merged highlights.
+---@return HighlightTable[] Resolved highlight groups.
 local function resolve_highlights()
     for name, _ in pairs(highlights) do
         highlights[name] = resolve_highlight(name)
     end
+    return highlights
 end
 
+--- Combine highlights in order of importance.
+---@param ... string | HighlightTable Name of a highlight group or highlight parameters.
+---@return HighlightFunction Function to call to generate a highlight group.
 local function merge_highlights(...)
     local args = { ... }
 
     return function()
         local result = {}
         for _, v in ipairs(args) do
-            local current = v
+            local current
             if type(v) == 'string' then
                 -- Value is the name of the highlight, copy values
                 current = resolve_highlight(v)
+            elseif type(v) == 'table' then
+                current = v
             end
             result = vim.tbl_deep_extend('force', result, current)
         end
@@ -35,6 +89,8 @@ local function merge_highlights(...)
     end
 end
 
+--- Add new highlights to the list.
+---@param new_highlights {[string]: Highlight} New highlights.
 local function set_highlights(new_highlights)
     for k, v in pairs(new_highlights) do
         highlights[k] = v
@@ -227,7 +283,7 @@ set_highlights {
         ctermbg = 'NONE'
     },
     BufferLineBufferSelected = {
-        ctermbg = 'NONE',
+        ctermfg = t.bright.white, ctermbg = 'NONE',
         cterm = { bold = true, italic = true },
     },
     -- Generic diagnostic
@@ -235,33 +291,33 @@ set_highlights {
     BufferLineDiagnosticVisible = { link = 'BufferLineBufferVisible' },
     BufferLineDiagnosticSelected = { link = 'BufferLineBufferSelected' },
     -- Error
-    BufferLineError = merge_highlights('BufferLineBuffer', 'DiagnosticError'),
+    BufferLineError = merge_highlights('BufferLineBuffer', 'DiagnosticUnderlineError'),
     BufferLineErrorVisible = merge_highlights('BufferLineError', 'BufferLineBufferVisible'),
     BufferLineErrorSelected = merge_highlights('BufferLineError', 'BufferLineBufferSelected'),
-    BufferLineErrorDiagnostic = { link = 'BufferLineError' },
-    BufferLineErrorDiagnosticVisible = { link = 'BufferLineErrorVisible' },
-    BufferLineErrorDiagnosticSelected = { link = 'BufferLineErrorSelected' },
+    BufferLineErrorDiagnostic = merge_highlights('BufferLineBuffer', 'DiagnosticError'),
+    BufferLineErrorDiagnosticVisible = merge_highlights('BufferLineErrorDiagnostic', 'BufferLineBufferVisible'),
+    BufferLineErrorDiagnosticSelected = merge_highlights('BufferLineErrorDiagnostic', 'BufferLineBufferVisible'),
     -- Warning
-    BufferLineWarning = merge_highlights('BufferLineBuffer', 'DiagnosticWarn'),
-    BufferLineWarningVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineWarning'),
+    BufferLineWarning = merge_highlights('BufferLineBuffer', 'DiagnosticUnderlineWarn'),
+    BufferLineWarningVisible = merge_highlights('BufferLineWarning', 'BufferLineBufferVisible'),
     BufferLineWarningSelected = merge_highlights('BufferLineWarning', 'BufferLineBufferSelected'),
-    BufferLineWarningDiagnostic = { link = 'BufferLineWarning' },
-    BufferLineWarningDiagnosticVisible = { link = 'BufferLineWarningVisible' },
-    BufferLineWarningDiagnosticSelected = { link = 'BufferLineWarningSelected' },
+    BufferLineWarningDiagnostic = merge_highlights('BufferLineBuffer', 'DiagnosticWarn'),
+    BufferLineWarningDiagnosticVisible = merge_highlights('BufferLineWarningDiagnostic', 'BufferLineBufferVisible'),
+    BufferLineWarningDiagnosticSelected = merge_highlights('BufferLineWarningDiagnostic', 'BufferLineBufferVisible'),
     -- Info
-    BufferLineInfo = merge_highlights('BufferLineBuffer', 'DiagnosticInfo'),
-    BufferLineInfoVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineInfo'),
-    BufferLineInfoSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineInfo'),
-    BufferLineInfoDiagnostic = { link = 'BufferLineInfo' },
-    BufferLineInfoDiagnosticVisible = { link = 'BufferLineInfoVisible' },
-    BufferLineInfoDiagnosticSelected = { link = 'BufferLineInfoSelected' },
+    BufferLineInfo = merge_highlights('BufferLineBuffer', 'DiagnosticUnderlineInfo'),
+    BufferLineInfoVisible = merge_highlights('BufferLineInfo', 'BufferLineBufferVisible'),
+    BufferLineInfoSelected = merge_highlights('BufferLineInfo', 'BufferLineBufferSelected'),
+    BufferLineInfoDiagnostic = merge_highlights('BufferLineBuffer', 'DiagnosticInfo'),
+    BufferLineInfoDiagnosticVisible = merge_highlights('BufferLineInfoDiagnostic', 'BufferLineBufferVisible'),
+    BufferLineInfoDiagnosticSelected = merge_highlights('BufferLineInfoDiagnostic', 'BufferLineBufferVisible'),
     -- Hint
-    BufferLineHint = merge_highlights('BufferLineBuffer', 'DiagnosticHint'),
-    BufferLineHintVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineHint'),
-    BufferLineHintSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineHint'),
-    BufferLineHintDiagnostic = { link = 'BufferLineHint' },
-    BufferLineHintDiagnosticVisible = { link = 'BufferLineHintVisible' },
-    BufferLineHintDiagnosticSelected = { link = 'BufferLineHintSelected' },
+    BufferLineHint = merge_highlights('BufferLineBuffer', 'DiagnosticUnderlineHint'),
+    BufferLineHintVisible = merge_highlights('BufferLineHint', 'BufferLineBufferVisible'),
+    BufferLineHintSelected = merge_highlights('BufferLineHint', 'BufferLineBufferSelected'),
+    BufferLineHintDiagnostic = merge_highlights('BufferLineBuffer', 'DiagnosticHint'),
+    BufferLineHintDiagnosticVisible = merge_highlights('BufferLineHintDiagnostic', 'BufferLineBufferVisible'),
+    BufferLineHintDiagnosticSelected = merge_highlights('BufferLineHintDiagnostic', 'BufferLineBufferVisible'),
     --#endregion
 
     --#region Other
@@ -274,7 +330,5 @@ set_highlights {
     --#endregion
 }
 
-resolve_highlights()
-
-return highlights
+return resolve_highlights()
 

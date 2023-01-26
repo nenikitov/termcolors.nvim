@@ -19,7 +19,7 @@ end
 
 --- Convert a HEX color to RGB triplet.
 ---
----@param hex string HEX value of the color ("#000" or "#000000" format).
+---@param hex string HEX value of the color ("#RGB" or "#RRGGBB" format).
 ---@return number R component (0-255).
 ---@return number G component (0-255).
 ---@return number B component (0-255).
@@ -48,7 +48,7 @@ end
 ---@param r number R component (0-255).
 ---@param g number G component (0-255).
 ---@param b number B component (0-255).
----@return string HEX value of the color ("#000000" format).
+---@return string HEX value of the color ("#RRGGBB" format).
 function U.rgb_to_hex(r, g, b)
     r = clamp(r, 0, 255)
     g = clamp(g, 0, 255)
@@ -61,7 +61,7 @@ end
 
 --- Convert RGB int to HEX.
 ---@param int number RGB int (0 -  16777216).
----@return string HEX value of the color ("#000000" format).
+---@return string HEX value of the color ("#RRGGBB" format).
 function U.int_to_hex(int)
     int = clamp(int, 0, 256 * 256 * 256)
     return '#' .. string.format('%06x', math.floor(int))
@@ -75,7 +75,7 @@ end
 ---    - 0 - full color 1
 ---    - 1 - full color 2
 ---    - 0-1 - in between
----@return string HEX value of the color ("#000000" format).
+---@return string HEX value of the color ("#RRGGBB" format).
 function U.mix_colors(color_1, color_2, factor)
     local color_1_r, color_1_g, color_1_b = U.hex_to_rgb(color_1)
     local color_2_r, color_2_g, color_2_b = U.hex_to_rgb(color_2)
