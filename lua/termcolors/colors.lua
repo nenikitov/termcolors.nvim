@@ -1,5 +1,9 @@
 return {
     term = {
+        primary = {
+            background = 'NONE',
+            foreground = 'NONE'
+        },
         normal = {
             black   = 'Black',
             red     = 'DarkRed',

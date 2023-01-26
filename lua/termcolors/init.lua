@@ -17,16 +17,8 @@ function T.setup(options_user)
     vim.g.colors_name = 'termcolors'
 
     -- Colorscheme
-    local highlights_to_lateinit = {}
     for name, highlight in pairs(highlights) do
-        if type(highlight) == 'function' then
-            highlights_to_lateinit[name] = highlight
-        else
         vim.api.nvim_set_hl(0, name, highlight)
-        end
-    end
-    for name, highlight in pairs(highlights_to_lateinit) do
-        vim.api.nvim_set_hl(0, name, highlight())
     end
 end
 

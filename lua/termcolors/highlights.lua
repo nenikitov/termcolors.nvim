@@ -1,42 +1,21 @@
 local c = require('termcolors.colors')
-local u = require('termcolors.utils')
 local t = c.term
 local g = c.gui
 
 
-local function get_highlight(name)
-    -- Get styles
-    local hl = {}
-    local term = vim.api.nvim_get_hl_by_name(name, false)
-    local gui = vim.api.nvim_get_hl_by_name(name, true)
+local highlights = {}
 
-    -- Copy GUI styles
-    if gui.foreground ~= nil then
-        hl.fg, gui.foreground = u.int_to_hex(gui.foreground), nil
+local function resolve_highlight(highlight)
+    if type(highlights[highlight]) == 'function' then
+        highlights[highlight] = highlights[highlight]()
     end
-    if gui.background ~= nil then
-        hl.bg, gui.background = u.int_to_hex(gui.background), nil
-    end
-    if gui.special ~= nil then
-        hl.sp, gui.special = u.int_to_hex(gui.special), nil
-    end
-    for k, v in pairs(gui) do
-        hl[k] = v
-    end
+    return highlights[highlight]
+end
 
-    -- Copy Term styles
-    hl.ctermfg, term.foreground = term.foreground, nil
-    hl.ctermbg, term.background = term.background, nil
-    hl.cterm = {}
-    for k, v in pairs(term) do
-        hl.cterm[k] = v
+local function resolve_highlights()
+    for name, _ in pairs(highlights) do
+        highlights[name] = resolve_highlight(name)
     end
-
-    -- Remove unneeded marker of an empty dictionary
-    -- https://github.com/neovim/neovim/issues/20504#issuecomment-1269765400
-    hl[true] = nil
-
-    return hl
 end
 
 local function merge_highlights(...)
@@ -45,16 +24,24 @@ local function merge_highlights(...)
     return function()
         local result = {}
         for _, v in ipairs(args) do
-            -- Copy all values from a highlight if the name is passed
-            local current = type(v) == 'string' and get_highlight(v) or v
+            local current = v
+            if type(v) == 'string' then
+                -- Value is the name of the highlight, copy values
+                current = resolve_highlight(v)
+            end
             result = vim.tbl_deep_extend('force', result, current)
         end
         return result
     end
 end
 
+local function set_highlights(new_highlights)
+    for k, v in pairs(new_highlights) do
+        highlights[k] = v
+    end
+end
 
-return {
+set_highlights {
     --#region Cursor
     Cursor = {
         ctermbg = t.normal.black,
@@ -71,6 +58,7 @@ return {
 
     --#region Default highlight groups
     Normal = {
+        ctermfg = t.primary.foreground, ctermbg = t.primary.background,
         -- fg = g.primary.foreground, bg = g.primary.background
     },
     NonText = {
@@ -201,8 +189,7 @@ return {
         ctermfg = t.normal.blue
     },
     DiagnosticHint = {
-        ctermfg = t.normal.white,
-        cterm = { undercurl = true }
+        ctermfg = t.normal.white
     },
     DiagnosticUnderlineError = {
         cterm = { undercurl = true },
@@ -237,33 +224,39 @@ return {
         ctermbg = t.normal.black
     },
     BufferLineBufferVisible = {
+        ctermbg = 'NONE'
     },
     BufferLineBufferSelected = {
+        ctermbg = 'NONE',
         cterm = { bold = true, italic = true },
     },
+    -- Generic diagnostic
+    BufferLineDiagnostic = { link = 'BufferLineBuffer' },
+    BufferLineDiagnosticVisible = { link = 'BufferLineBufferVisible' },
+    BufferLineDiagnosticSelected = { link = 'BufferLineBufferSelected' },
     -- Error
-    BufferLineError = { link = 'DiagnosticError' },
-    BufferLineErrorVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineError'),
-    BufferLineErrorSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineError'),
+    BufferLineError = merge_highlights('BufferLineBuffer', 'DiagnosticError'),
+    BufferLineErrorVisible = merge_highlights('BufferLineError', 'BufferLineBufferVisible'),
+    BufferLineErrorSelected = merge_highlights('BufferLineError', 'BufferLineBufferSelected'),
     BufferLineErrorDiagnostic = { link = 'BufferLineError' },
     BufferLineErrorDiagnosticVisible = { link = 'BufferLineErrorVisible' },
     BufferLineErrorDiagnosticSelected = { link = 'BufferLineErrorSelected' },
     -- Warning
-    BufferLineWarning = { link = 'DiagnosticWarn' },
+    BufferLineWarning = merge_highlights('BufferLineBuffer', 'DiagnosticWarn'),
     BufferLineWarningVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineWarning'),
-    BufferLineWarningSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineWarning'),
+    BufferLineWarningSelected = merge_highlights('BufferLineWarning', 'BufferLineBufferSelected'),
     BufferLineWarningDiagnostic = { link = 'BufferLineWarning' },
     BufferLineWarningDiagnosticVisible = { link = 'BufferLineWarningVisible' },
     BufferLineWarningDiagnosticSelected = { link = 'BufferLineWarningSelected' },
     -- Info
-    BufferLineInfo = { link = 'DiagnosticInfo' },
+    BufferLineInfo = merge_highlights('BufferLineBuffer', 'DiagnosticInfo'),
     BufferLineInfoVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineInfo'),
     BufferLineInfoSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineInfo'),
     BufferLineInfoDiagnostic = { link = 'BufferLineInfo' },
     BufferLineInfoDiagnosticVisible = { link = 'BufferLineInfoVisible' },
     BufferLineInfoDiagnosticSelected = { link = 'BufferLineInfoSelected' },
     -- Hint
-    BufferLineHint = { link = 'DiagnosticHint' },
+    BufferLineHint = merge_highlights('BufferLineBuffer', 'DiagnosticHint'),
     BufferLineHintVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineHint'),
     BufferLineHintSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineHint'),
     BufferLineHintDiagnostic = { link = 'BufferLineHint' },
@@ -280,4 +273,8 @@ return {
     }
     --#endregion
 }
+
+resolve_highlights()
+
+return highlights
 
