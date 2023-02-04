@@ -1,10 +1,10 @@
-BufferLineBackground                xxx cterm= gui=
-BufferLineBuffer                    xxx ctermbg=0
-BufferLineBufferSelected            xxx cterm=bold,italic
-BufferLineBufferVisible             xxx cterm= gui=
-BufferLineCloseButton               xxx cterm= gui=
-BufferLineCloseButtonSelected       xxx cterm=underline gui=underline guisp=#000000
-BufferLineCloseButtonVisible        xxx cterm= gui=
+# BufferLineBackground                xxx cterm= gui=
+# BufferLineBuffer                    xxx ctermbg=0
+# BufferLineBufferSelected            xxx cterm=bold,italic
+# BufferLineBufferVisible             xxx cterm= gui=
+# BufferLineCloseButton               xxx cterm= gui=
+# BufferLineCloseButtonSelected       xxx cterm=underline gui=underline guisp=#000000
+# BufferLineCloseButtonVisible        xxx cterm= gui=
 BufferLineDevIconDefaultInactive    xxx cterm= ctermfg=66 gui= guifg=#6d8086
 BufferLineDevIconDefaultSelected    xxx cterm=underline ctermfg=66 gui=underline guifg=#6d8086 guisp=#000000
 BufferLineDevIconLua                xxx cterm= ctermfg=74 gui= guifg=#51a0cf
@@ -12,9 +12,9 @@ BufferLineDevIconLuaInactive        xxx cterm= ctermfg=74 gui= guifg=#51a0cf
 BufferLineDevIconLuaSelected        xxx cterm=underline ctermfg=74 gui=underline guifg=#51a0cf guisp=#000000
 BufferLineDevIconToml               xxx cterm= ctermfg=66 gui= guifg=#6d8086
 BufferLineDevIconTomlSelected       xxx cterm=underline ctermfg=66 gui=underline guifg=#6d8086 guisp=#000000
-BufferLineDiagnostic                xxx cterm= gui=
-BufferLineDiagnosticSelected        xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
-BufferLineDiagnosticVisible         xxx cterm= gui=
+# BufferLineDiagnostic                xxx cterm= gui=
+# BufferLineDiagnosticSelected        xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
+# BufferLineDiagnosticVisible         xxx cterm= gui=
 BufferLineDuplicate                 xxx cterm=italic gui=italic
 BufferLineDuplicateSelected         xxx cterm=underline,italic gui=underline,italic guisp=#000000
 BufferLineDuplicateVisible          xxx cterm=italic gui=italic
@@ -24,7 +24,7 @@ BufferLineDuplicateVisible          xxx cterm=italic gui=italic
 # BufferLineErrorDiagnosticVisible    xxx links to BufferLineErrorVisible
 # BufferLineErrorSelected             xxx cterm=bold,italic ctermfg=1
 # BufferLineErrorVisible              xxx ctermfg=1
-BufferLineFill                      xxx ctermbg=0
+# BufferLineFill                      xxx ctermbg=0
 BufferLineGroupLabel                xxx cterm= gui=
 BufferLineGroupSeparator            xxx cterm= gui=
 # BufferLineHint                      xxx links to DiagnosticHint
@@ -44,13 +44,13 @@ BufferLineIndicatorVisible          xxx cterm= gui=
 BufferLineModified                  xxx ctermfg=3
 BufferLineModifiedSelected          xxx links to BufferLineModified
 BufferLineModifiedVisible           xxx links to BufferLineModified
-BufferLineNumbers                   xxx cterm= gui=
-BufferLineNumbersSelected           xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
-BufferLineNumbersVisible            xxx cterm= gui=
+# BufferLineNumbers                   xxx cterm= gui=
+# BufferLineNumbersSelected           xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
+# BufferLineNumbersVisible            xxx cterm= gui=
 BufferLineOffsetSeparator           xxx cterm= gui=
-BufferLinePick                      xxx cterm=bold,italic gui=bold,italic
-BufferLinePickSelected              xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
-BufferLinePickVisible               xxx cterm=bold,italic gui=bold,italic
+# BufferLinePick                      xxx cterm=bold,italic gui=bold,italic
+# BufferLinePickSelected              xxx cterm=bold,underline,italic gui=bold,underline,italic guisp=#000000
+# BufferLinePickVisible               xxx cterm=bold,italic gui=bold,italic
 BufferLineSeparator                 xxx cterm= gui=
 BufferLineSeparatorSelected         xxx cterm=underline gui=underline guisp=#000000
 BufferLineSeparatorVisible          xxx cterm= gui=

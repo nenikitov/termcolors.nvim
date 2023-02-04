@@ -7,8 +7,7 @@ local g = c.gui
 
 ---@class CTerm
 ---@field bold boolean Bold.
----@field underline boolean Underline.
----@field undercurl boolean Curly underline.
+---@field underline boolean Underline. -@field undercurl boolean Curly underline.
 ---@field underdouble boolean Double underline.
 ---@field underdotted boolean Dotted underline.
 ---@field underdashed boolean Dashed underline.
@@ -104,7 +103,7 @@ set_highlights {
         bg = g.normal.black
     },
     CursorLine = {
-        ctermbg = t.normal.black,
+        ctermbg = t.normal.black
     },
     CursorColumn = {
         ctermbg = t.normal.black,
@@ -117,12 +116,13 @@ set_highlights {
         ctermfg = t.primary.foreground, ctermbg = t.primary.background,
         -- fg = g.primary.foreground, bg = g.primary.background
     },
-    NonText = {
-        ctermfg = t.normal.white
+    Label = {
+        ctermfg = t.bright.cyan
     },
-    Error = {
-        ctermfg = t.normal.red
+    String = {
+        ctermfg = t.normal.yellow
     },
+    Delimiter = { link = 'Normal' },
     Comment = {
         ctermfg = t.normal.green,
         cterm = { italic = true },
@@ -130,48 +130,117 @@ set_highlights {
     Constant = {
         ctermfg = t.bright.blue,
     },
+    Boolean = { link = 'Constant' },
+    Number = {
+        ctermfg = t.bright.green
+    },
+    Keyword = {
+        ctermfg = t.bright.blue
+    },
+    Function = {
+        ctermfg = t.bright.yellow
+    },
     Identifier = {
+        ctermfg = t.bright.cyan
+    },
+    Class = {
+        ctermfg = t.bright.green
+    },
+    ['@constructor'] = { link = 'Class' },
+    ['@property'] = {
         ctermfg = t.normal.cyan
     },
     Statement = {
         ctermfg = t.normal.magenta,
     },
+    ['@keyword.return'] = { link = 'Statement' },
+    ['@keyword.function'] = { link = 'Statement' },
+    ['@keyword.operator'] = { link = 'Statement' },
+    Repeat = { link = 'Statement' },
+    Operator = { link = 'Normal' },
     PreProc = {
         ctermfg = t.normal.magenta
     },
-    Type = {
-        ctermfg = t.bright.blue,
-    },
-    Special = {
-        ctermfg = t.normal.magenta
-    },
-    --#endregion
-
-    --#region Other highlight groups
-    String = {
-        ctermfg = t.normal.yellow
-    },
+    Conditional = { link = 'Statement' },
+    StorageClass = { link = 'Constant' },
+    ['@type.builtin'] = { link = 'Constant' },
+    ['@type.qualifier'] = { link = 'Constant' },
+    ['@namespace'] = { link = 'Type' },
+    Type = { link = 'Class' },
+    ['@constant.builtin'] = { link = 'Constant' },
+    ['@function.builtin'] = { link = '@function' },
+    ['@function.macro'] = { link = 'Macro' },
+    ['@symbol'] = { link = 'Identifier' },
+    ['@decorator'] = { link = 'Class' },
+    Macro = { link = 'Constant' },
     Character = {
         ctermfg = t.normal.yellow
     },
-    Number = {
-        ctermfg = t.bright.green
+    PMenu = merge_highlights('Normal', { ctermfg = 'NONE' }),
+
+
+
+    Title = {
+        ctermfg = t.bright.blue,
+        cterm = { bold = true }
     },
-    Boolean = { link = 'Constant' },
-    Function = {
-        ctermfg = t.bright.yellow
+    markdownH1Delimiter = { link = '@punctuation.special' },
+    markdownH2Delimiter = { link = 'markdownH1Delimiter' },
+    markdownH3Delimiter = { link = 'markdownH1Delimiter' },
+    markdownH4Delimiter = { link = 'markdownH1Delimiter' },
+    markdownH5Delimiter = { link = 'markdownH1Delimiter' },
+    markdownH6Delimiter = { link = 'markdownH1Delimiter' },
+    markdownCodeBlock = { link = '@text.literal' },
+    markdownCodeDelimiter = { link = 'markdownCodeBlock' },
+    markdownLinkText = { link = '@text.reference' },
+    markdownUrl = { link = '@text.uri' },
+    markdownCode = { link = 'markdownCodeBlock' },
+    ['@punctuation.special'] = {
+        ctermfg = t.normal.cyan
     },
-    Conditional = { link = 'Statement' },
-    Repeat = { link = 'Statement' },
+    ['@text.literal'] = { link = 'String' },
+    ['@text.reference'] = {
+        ctermfg = t.normal.cyan
+    },
+    ['@text.uri'] = {
+        ctermfg = t.bright.cyan,
+        cterm = { underline = true }
+    },
+    ['@text.emphasis'] = {
+        cterm = { italic = true }
+    },
+    ['@text.strong'] = {
+        cterm = { bold = true }
+    },
+
+    Tag = {
+        ctermfg = t.bright.blue
+    },
+
+
+
+    -- TODO Highlight THIS
+    --[[
+    NonText = {
+        ctermfg = t.normal.white
+    },
+    Error = {
+        ctermfg = t.normal.red
+    },
+    Special = {
+        ctermfg = t.normal.magenta
+    }, ]]
+    --#endregion
+
+    --#region Other highlight groups
+    --[[
     Label = { link = 'Statement' },
     Operator = { link = 'Normal' },
-    Keyword = { link = 'Statement' },
     Exception = { link = 'Statement' },
     Include = { link = 'PreProc' },
     Define = { link = 'PreProc' },
     Macro = { link = 'PreProc' },
     PreCondit = { link = 'PreProc' },
-    StorageClass = { link = 'Type' },
     Structure = { link = 'Type' },
     Typedef = { link = 'Type' },
     Tag = { link = 'Special' },
@@ -181,14 +250,14 @@ set_highlights {
     },
     Delimiter = { link = 'Normal' },
     SpecialComment = { link = 'Comment' },
-    Debug = { link = 'Special' },
+    Debug = { link = 'Special' }, ]]
     --#endregion
 
 
     --#region Treesitter highlight
-    ['@field'] = {
+    --[[ ['@field'] = {
         ctermfg = t.bright.cyan
-    },
+    }, ]]
     --#endregion
 
 
@@ -275,6 +344,29 @@ set_highlights {
     },
     BufferLineModifiedVisible = { link = 'BufferLineModified' },
     BufferLineModifiedSelected = { link = 'BufferLineModified' },
+    -- Close button
+    BufferLineCloseButton = { link = 'BufferLineBuffer' },
+    BufferLineCloseButtonVisible = { link = 'BufferLineBufferVisible' },
+    BufferLineCloseButtonSelected = { link = 'BufferLineBufferSelected' },
+    -- Dev Icons
+    BufferLineDevIconDefaultInactive = { link = 'BufferLineBuffer' },
+    BufferLineDevIconDefaultSelected = { link = 'BufferLineBufferSelected' },
+    -- Picker
+    BufferLinePickTemplate = {
+        ctermfg = t.normal.blue,
+        cterm = { bold = true, italic = true }
+    },
+    BufferLinePick = merge_highlights('BufferLineBuffer', 'BufferLinePickTemplate'),
+    BufferLinePickVisible = merge_highlights('BufferLineBufferVisible', 'BufferLinePickTemplate'),
+    BufferLinePickSelected = merge_highlights('BufferLineBufferSelected', 'BufferLinePickTemplate'),
+    -- Numbers
+    BufferLineNumbersTemplate = {
+        ctermfg = t.normal.magenta,
+        cterm = { bold = true, italic = true }
+    },
+    BufferLineNumbers = merge_highlights('BufferLineBuffer', 'BufferLineNumbersTemplate'),
+    BufferLineNumbersVisible = merge_highlights('BufferLineBufferVisible', 'BufferLineNumbersTemplate'),
+    BufferLineNumbersSelected = merge_highlights('BufferLineBufferSelected', 'BufferLineNumbersTemplate'),
     -- Normal
     BufferLineBuffer = {
         ctermbg = t.normal.black
@@ -286,6 +378,7 @@ set_highlights {
         ctermfg = t.bright.white, ctermbg = 'NONE',
         cterm = { bold = true, italic = true },
     },
+    BufferLineBackground = { link = 'BufferLineBuffer' },
     -- Generic diagnostic
     BufferLineDiagnostic = { link = 'BufferLineBuffer' },
     BufferLineDiagnosticVisible = { link = 'BufferLineBufferVisible' },
@@ -326,7 +419,7 @@ set_highlights {
     },
     Visual = {
         ctermbg = t.normal.blue
-    }
+    },
     --#endregion
 }
 
