@@ -3,6 +3,13 @@ local highlights = require('termcolors.highlights')
 
 local T = {}
 
+local function script_path()
+   local str = debug.getinfo(2, "S").source:sub(2)
+   return str:match("(.*/)")
+end
+
+print(script_path())
+
 function T.setup(options_user)
     -- Parse options
     local options = vim.tbl_deep_extend('force', options_default, options_user or {})
