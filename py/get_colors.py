@@ -48,7 +48,7 @@ class ConfiguredTerminal():
 
 
 
-def query_color(ansi: list[int] | int, poll: select.poll, timeout=500, retries=5) -> str:
+def query_color(ansi: list[int] | int, poll: select.poll, timeout=500, retries=5) -> str | None:
     ansi = [ansi] if isinstance(ansi, int) else ansi
     ansi_str = ';'.join([str(a) for a in ansi])
 
