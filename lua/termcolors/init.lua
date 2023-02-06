@@ -1,16 +1,17 @@
 local options_default = require('termcolors.options')
 local highlights = require('termcolors.highlights')
 
+local u = require('termcolors.utils.utils_env')
+
 local T = {}
 
-local function script_path()
-   local str = debug.getinfo(2, "S").source:sub(2)
-   return str:match("(.*/)")
-end
-
-print(script_path())
-
 function T.setup(options_user)
+    local cached_colors_status, cached_colors = pcall(require, 'termcolors.')
+
+    -- print(u.execute_shell(
+    --     'python ' .. u.script_path() .. '../../py/get_colors.py'
+    -- ))
+
     -- Parse options
     local options = vim.tbl_deep_extend('force', options_default, options_user or {})
 

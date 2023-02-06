@@ -4,7 +4,16 @@
 
 - Based entirely on your currently selected terminal colorscheme
 
-## 
+## Color choices
+
+- Black
+- Red
+- Green
+- Yellow
+- Blue
+- Magenta
+- Cyan
+- White
 
 ## TODO
 
@@ -19,6 +28,9 @@
 - Kitty
 - XTerm
 - UXTerm
+- GnomeTerminal
+- Konsole
+- Westerm
 - TTY
 
 ### Supported plugins / features

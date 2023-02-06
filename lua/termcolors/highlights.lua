@@ -1,4 +1,4 @@
-local c = require('termcolors.colors')
+local c = require('termcolors.colors.color_table')
 local t = c.term
 local g = c.gui
 
@@ -7,7 +7,8 @@ local g = c.gui
 
 ---@class CTerm
 ---@field bold boolean Bold.
----@field underline boolean Underline. -@field undercurl boolean Curly underline.
+---@field underline boolean Underline.
+---@field undercurl boolean Curly underline.
 ---@field underdouble boolean Double underline.
 ---@field underdotted boolean Dotted underline.
 ---@field underdashed boolean Dashed underline.
@@ -100,22 +101,58 @@ set_highlights {
     --#region Cursor
     Cursor = {
         ctermbg = t.normal.black,
-        bg = g.normal.black
     },
-    CursorLine = {
-        ctermbg = t.normal.black
-    },
-    CursorColumn = {
-        ctermbg = t.normal.black,
-        bg = g.normal.black
-    },
+    CursorLine = { link = 'Cursor' },
+    CursorColumn = { link = 'Cursor' },
     --#endregion
 
-    --#region Default highlight groups
     Normal = {
         ctermfg = t.primary.foreground, ctermbg = t.primary.background,
-        -- fg = g.primary.foreground, bg = g.primary.background
     },
+    PMenu = { link = 'Normal' },
+    Comment = {
+        ctermfg = t.bright.black
+    },
+
+    -- Indent blankline
+    IndentBlanklineChar = {
+        ctermfg = t.bright.black
+    },
+    IndentBlanklineSpaceChar = { link = 'IndentBlanklineChar' },
+    IndentBlanklineSpaceCharBlankline = { link = 'IndentBlanklineSpaceChar' },
+    IndentBlanklineContextChar = {
+        ctermfg = t.normal.yellow
+    },
+    IndentBlanklineContextSpaceChar = { link = 'IndentBlanklineContextChar' },
+    IndentBlanklineContextSpaceCharBlankline = { link = 'IndentBlanklineContextSpaceChar' },
+    IndentBlanklineContextStart = {
+        cterm = { underline = true },
+        sp = g.normal.yellow
+    },
+    Statement = {
+        ctermfg = t.normal.yellow
+    },
+    Keyword = {
+        ctermfg = t.normal.cyan
+    },
+    ['@keyword.return'] = { link= 'Statement' },
+    Function = {
+        ctermfg = t.bright.blue
+    },
+    Identifier = {
+        ctermfg = t.normal.red
+    },
+    Delimiter = { link = 'Normal' },
+    Type = { link = 'Class' },
+    Class = {
+        ctermfg = t.normal.magenta
+    },
+    ['@constructor'] = { link = 'Class' },
+    String = {
+        ctermfg = t.normal.green
+    },
+
+    --[[
     Label = {
         ctermfg = t.bright.cyan
     },
@@ -216,6 +253,7 @@ set_highlights {
     Tag = {
         ctermfg = t.bright.blue
     },
+    --]]
 
 
 
@@ -305,32 +343,32 @@ set_highlights {
 
     --#region Diagnostics
     DiagnosticError = {
-        ctermfg = t.normal.red
+        ctermfg = t.bright.red
     },
     DiagnosticWarn = {
-        ctermfg = t.normal.yellow
+        ctermfg = t.bright.yellow
     },
     DiagnosticInfo = {
-        ctermfg = t.normal.blue
+        ctermfg = t.bright.blue
     },
     DiagnosticHint = {
         ctermfg = t.normal.white
     },
     DiagnosticUnderlineError = {
         cterm = { undercurl = true },
-        sp = g.normal.red,
+        sp = g.bright.red,
     },
     DiagnosticUnderlineWarn = {
         cterm = { undercurl = true },
-        sp = g.normal.yellow,
+        sp = g.bright.yellow,
     },
     DiagnosticUnderlineInfo = {
         cterm = { undercurl = true },
-        sp = g.normal.blue,
+        sp = g.bright.blue,
     },
     DiagnosticUnderlineHint = {
         cterm = { undercurl = true },
-        sp = g.normal.white,
+        sp = g.bright.white,
     },
     --#endregion
 
@@ -418,7 +456,7 @@ set_highlights {
         cterm = { underline = true }
     },
     Visual = {
-        ctermbg = t.normal.blue
+        ctermbg = t.normal.black
     },
     --#endregion
 }

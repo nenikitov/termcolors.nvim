@@ -4,25 +4,26 @@ return {
             background = 'NONE',
             foreground = 'NONE'
         },
+        -- fdsjlfds
         normal = {
-            black   = 'Black',
-            red     = 'DarkRed',
-            green   = 'DarkGreen',
-            yellow  = 'DarkYellow',
-            blue    = 'DarkBlue',
-            magenta = 'DarkMagenta',
-            cyan    = 'DarkCyan',
-            white   = 'Gray'
+            black   = 0,
+            red     = 1,
+            green   = 2,
+            yellow  = 3,
+            blue    = 4,
+            magenta = 5,
+            cyan    = 6,
+            white   = 7
         },
         bright = {
-            black   = 'DarkGray',
-            red     = 'Red',
-            green   = 'Green',
-            yellow  = 'Yellow',
-            blue    = 'Blue',
-            magenta = 'Magenta',
-            cyan    = 'Cyan',
-            white   = 'White'
+            black   = 8,
+            red     = 9,
+            green   = 10,
+            yellow  = 11,
+            blue    = 12,
+            magenta = 13,
+            cyan    = 14,
+            white   = 15
         }
     },
     gui = {
