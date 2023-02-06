@@ -1,8 +1,6 @@
 local options_default = require('termcolors.options')
 local highlights = require('termcolors.highlights')
 
-local u = require('termcolors.utils.utils_env')
-
 local T = {}
 
 function T.setup(options_user)
