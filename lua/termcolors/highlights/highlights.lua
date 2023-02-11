@@ -12,21 +12,16 @@ return function(t, g)
     local copy_merge = resolver.copy_merge
 
     resolver.set {
-        Comment = {
+        Cursor = {
             cterm = {
-                ctermfg = t.bright.black
+                ctermbg = t.normal.black
             },
             gui = {
-                fg = mix(g.bright.black, g.bright.green, 0.5)
+                bg = mix(g.primary.background, g.normal.black, 0.75)
             }
         },
-        Identifier = copy_merge(
-            'Comment',
-            {
-                cterm = { cterm = { bold = true } },
-                gui = { bold = true }
-            }
-        )
+        CursorLine = copy_merge('Cursor'),
+        CursorColumn = copy_merge('Cursor'),
     }
 
     return resolver.get()
