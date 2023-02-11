@@ -1,6 +1,5 @@
 local c = require('termcolors.colors.color_table')
 local t = c.term
-local g = c.gui
 
 
 --#region Types
@@ -43,6 +42,9 @@ local g = c.gui
 ---@alias Highlight HighlightTable | HighlightLink | HighlightFunction
 
 --#endregion
+
+
+--#region Helpers
 
 --- Container for all highlights.
 ---@type {[string]: Highlight}
@@ -97,6 +99,8 @@ local function set_highlights(new_highlights)
     end
 end
 
+--#endregion
+
 set_highlights {
     --#region Cursor
     Cursor = {
@@ -127,30 +131,99 @@ set_highlights {
     IndentBlanklineContextSpaceCharBlankline = { link = 'IndentBlanklineContextSpaceChar' },
     IndentBlanklineContextStart = {
         cterm = { underline = true },
-        sp = g.normal.yellow
     },
-    Statement = {
+
+    -- Highlighting
+    Keyword = {
+        ctermfg = t.bright.cyan
+    },
+    Include = {
+        ctermfg = t.normal.magenta
+    },
+    Identifier = {
+        ctermfg = t.normal.magenta
+    },
+    ['@namespace'] = {
+        ctermfg = t.normal.magenta
+    },
+    Type = {
+        ctermfg = t.normal.magenta
+    },
+    PreProc = {
+        ctermfg = t.normal.blue
+    },
+    ['@decorator'] = { link = 'PreProc' },
+    Constant = {
+        ctermfg = t.normal.red
+    },
+    ['@field'] = {
         ctermfg = t.normal.yellow
     },
-    Keyword = {
-        ctermfg = t.normal.cyan
+    ['@property'] = {
+        ctermfg = t.normal.yellow
     },
-    ['@keyword.return'] = { link= 'Statement' },
+    StorageClass = {
+        ctermfg = t.bright.yellow
+    },
+    Operator = { link = 'Normal' },
+    Delimiter = { link = 'Normal' },
     Function = {
         ctermfg = t.bright.blue
     },
-    Identifier = {
+    ['@parameter'] = {
+        ctermfg = t.bright.magenta
+    },
+    ['@type.qualifier'] = { link = 'Keyword' },
+    ['@variable'] = {
+        ctermfg = t.bright.red
+    },
+    ['@selfTypeKeyword'] = {
+        ctermfg = t.normal.cyan
+    },
+    String = {
+        ctermfg = t.bright.green
+    },
+    SpecialChar = {
         ctermfg = t.normal.red
     },
-    Delimiter = { link = 'Normal' },
-    Type = { link = 'Class' },
-    Class = {
-        ctermfg = t.normal.magenta
-    },
-    ['@constructor'] = { link = 'Class' },
-    String = {
+    Character = {
         ctermfg = t.normal.green
     },
+    Special = {
+        ctermfg = t.normal.red
+    },
+    ['@constant.builtin'] = { link = 'Constant' },
+    Number = {
+        ctermfg = t.normal.yellow
+    },
+    Boolean = {
+        ctermfg = t.bright.magenta
+    },
+    Statement = { link = 'Keyword' },
+    ['@function.builtin'] = { link = 'Function' },
+    ['@constructor'] = { link = 'Type' },
+    ['@keyword.return'] = {
+        ctermfg = t.bright.yellow
+    },
+    Conditional = {
+        ctermfg = t.bright.yellow
+    },
+    ['@controlFlow'] = { link = 'Conditional' },
+    Repeat = { link = 'Conditional' },
+
+    Title = {
+        ctermfg = t.bright.yellow
+    },
+    ['@tag'] = {
+        ctermfg = t.bright.magenta
+    },
+    ['@tag.delimiter'] = {
+        ctermfg = t.normal.magenta
+    },
+    ['@tag.attribute'] = {
+        ctermfg = t.normal.yellow
+    },
+
 
     --[[
     Label = {
@@ -301,26 +374,67 @@ set_highlights {
 
     --#region Columns
     LineNr = {
-        ctermfg = t.normal.white
+        ctermfg = t.bright.black
     },
-    CursorLineNr = {
+    CursorLineNr = merge_highlights(
+        'CursorLine',
+        { ctermfg = t.normal.white }
+    ),
+    SignColumn = { link = 'Normal' },
+    --#endregion
+
+    --#region Scorllbar
+    ScrollbarHandle = {
         ctermbg = t.normal.black
     },
-    SignColumn = {
+    -- Cursor
+    ScrollbarCursor = {
         ctermfg = t.normal.white
     },
+    ScrollbarCursorHandle = merge_highlights('ScrollbarHandle', 'ScrollbarCursor'),
+    -- Search
+    ScrollbarSearch = {
+        ctermfg = t.normal.cyan
+    },
+    ScrollbarSearchHandle = merge_highlights('ScrollbarHandle', 'ScrollbarSearch'),
+    -- Error
+    ScrollbarError = merge_highlights('DiagnosticError'),
+    ScrollbarErrorHandle = merge_highlights('ScrollbarHandle', 'ScrollbarError'),
+    -- Warn
+    ScrollbarWarn = merge_highlights('DiagnosticWarn'),
+    ScrollbarWarnHandle = merge_highlights('ScrollbarHandle', 'ScrollbarWarn'),
+    -- Info
+    ScrollbarInfo = merge_highlights('DiagnosticInfo'),
+    ScrollbarInfoHandle = merge_highlights('ScrollbarHandle', 'ScrollbarInfo'),
+    -- Hint
+    ScrollbarHint = merge_highlights('DiagnosticHint'),
+    ScrollbarHintHandle = merge_highlights('ScrollbarHandle', 'ScrollbarHint'),
+    -- Misc
+    ScrollbarMisc = {
+        ctermfg = t.normal.magenta
+    },
+    ScrollbarMiscHandle = merge_highlights('ScrollbarHandle', 'ScrollbarMisc'),
+    -- Git Add
+    ScrollbarGitAdd = merge_highlights('GitSignsAdd'),
+    ScrollbarGitAddHandle = merge_highlights('ScrollbarHandle', 'ScrollbarGitAdd'),
+    -- Git Change
+    ScrollbarGitChange = merge_highlights('GitSignsChange'),
+    ScrollbarGitChangeHandle = merge_highlights('ScrollbarHandle', 'ScrollbarGitChange'),
+    -- Git Delete
+    ScrollbarGitDelete = merge_highlights('GitSignsDelete'),
+    ScrollbarGitDeleteHandle = merge_highlights('ScrollbarHandle', 'ScrollbarGitDelete'),
     --#endregion
 
     --#region GitSigns
     -- Signs
     GitSignsAdd = {
-        ctermfg = t.normal.green
+        ctermfg = t.bright.green
     },
     GitSignsChange = {
-        ctermfg = t.normal.blue
+        ctermfg = t.bright.blue
     },
     GitSignsDelete = {
-        ctermfg = t.normal.red
+        ctermfg = t.bright.red
     },
     GitSignsUntracked = { link = 'GitSignsAdd' },
     GitSignsTopdelete = { link = 'GitSignsDelete' },
@@ -356,19 +470,19 @@ set_highlights {
     },
     DiagnosticUnderlineError = {
         cterm = { undercurl = true },
-        sp = g.bright.red,
+        sp = '#ff0000'
     },
     DiagnosticUnderlineWarn = {
         cterm = { undercurl = true },
-        sp = g.bright.yellow,
+        sp = '#ffff00'
     },
     DiagnosticUnderlineInfo = {
         cterm = { undercurl = true },
-        sp = g.bright.blue,
+        sp = '#0000ff'
     },
     DiagnosticUnderlineHint = {
         cterm = { undercurl = true },
-        sp = g.bright.white,
+        sp = '#808080'
     },
     --#endregion
 
@@ -461,5 +575,10 @@ set_highlights {
     --#endregion
 }
 
-return resolve_highlights()
+--- Generate highlights based on the options
+---@param options Options
+---@return HighlightTable[]
+return function(options)
+    return resolve_highlights()
+end
 

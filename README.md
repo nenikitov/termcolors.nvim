@@ -4,16 +4,18 @@
 
 - Based entirely on your currently selected terminal colorscheme
 
-## Color choices
+### Color choices
 
-- Black
-- Red
-- Green
-- Yellow
-- Blue
-- Magenta
-- Cyan
-- White
+| Color   | Definition        | Examples                          |
+| ------- | ----------------- | --------------------------------- |
+| Black   | Non-code elements | Comments, indent lines, selection |
+| Red     | Keywords          |                                   |
+| Green   | Actions           | Functions, macros                 |
+| Yellow  | Other keywords    | ???                               |
+| Blue    | Types             | Classes, properties               |
+| Magenta | 
+| Cyan    | Variables         | Variables, constants              |
+| White   | 
 
 ## TODO
 
@@ -50,20 +52,20 @@
 
 ### Supported file types
 
-- `.md`
-- `.jsonc`
-- `.toml`
-- `.yaml`
-- `.xml`
-- `.html`
-- `.css`
-- `.js`
-- `.ts`
-- `.lua`
-- `.py`
-- `.cpp`
-- `.cs`
-- `.rs`
-- `.java`
-- `.sql`
+- [ ] `.md`
+- [ ] `.jsonc`
+- [ ] `.toml`
+- [ ] `.yaml`
+- [ ] `.xml`
+- [ ] `.html`
+- [ ] `.css`
+- [ ] `.js`
+- [ ] `.ts`
+- [ ] `.lua`
+- [ ] `.py`
+- [ ] `.cpp`
+- [ ] `.cs`
+- [ ] `.rs`
+- [ ] `.java`
+- [ ] `.sql`
 
