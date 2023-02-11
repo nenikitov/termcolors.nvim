@@ -2,13 +2,12 @@
 
 
 ---@class Options
----@field cterm_mode 8 | 16 | 256
+---@field high_color_cterm boolean
 ---@field token_highlight_swaps {[Color]: Color}
----@field highlight_overrides {[string]: HighlightTable | HighlightLink}
 
 ---@type Options
 local options = {
-    cterm_mode = 16,
+    high_color_cterm = true,
     token_highlight_swaps = {
         black   = 'black',
         red     = 'red',
@@ -19,8 +18,6 @@ local options = {
         cyan    = 'cyan',
         white   = 'white'
     },
-    highlight_overrides = {
-    }
 }
 
 return options

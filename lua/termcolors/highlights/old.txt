@@ -2,48 +2,6 @@ local c = require('termcolors.colors.color_table')
 local t = c.term
 
 
---#region Types
-
----@class CTerm
----@field bold boolean Bold.
----@field underline boolean Underline.
----@field undercurl boolean Curly underline.
----@field underdouble boolean Double underline.
----@field underdotted boolean Dotted underline.
----@field underdashed boolean Dashed underline.
----@field strikethrough boolean Strike through.
----@field reverse boolean Reverse background and foreground colors.
----@field italic boolean Italicize.
-
----@alias CTermColor number | nil | 'NONE' | 'Black' | 'DarkRed' | 'DarkGreen' | 'DarkYellow' | 'DarkBlue' | 'DarkMagenta' | 'DarkCyan' | 'Gray' | 'DarkGray' | 'Red' | 'Green' | 'Yellow' | 'Blue' | 'Magenta' | 'Cyan' | 'White'
-
----@class HighlightTable
----@field ctermfg CTermColor Terminal text color.
----@field ctermbg CTermColor Terminal background color.
----@field cterm CTerm Terminal font modifiers.
----@field fg string GUI text color ('#RRGGBB' or color name).
----@field bg string GUI background color ('#RRGGBB' or color name).
----@field sp string GUI special color ('#RRGGBB' or color name).
----@field bold boolean Bold.
----@field underline boolean Underline.
----@field undercurl boolean Curly underline.
----@field underdouble boolean Double underline.
----@field underdotted boolean Dotted underline.
----@field underdashed boolean Dashed underline.
----@field strikethrough boolean Strike through.
----@field reverse boolean Reverse background and foreground colors.
----@field italic boolean Italicize.
-
----@class HighlightLink
----@field link string Name of another highlight group to link to.
-
----@alias HighlightFunction fun(): Highlight
-
----@alias Highlight HighlightTable | HighlightLink | HighlightFunction
-
---#endregion
-
-
 --#region Helpers
 
 --- Container for all highlights.
