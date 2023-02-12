@@ -15,7 +15,15 @@ return function(colorscheme_options)
 
     for name, separated in pairs(highlights_separated) do
         if colorscheme_options.high_color_cterm and separated.gui then
+            ---@type TermHighlight
+            local old_cterm = vim.deepcopy(separated.cterm)
             separated.cterm = builder.gui_to_cterm(separated.gui)
+            if old_cterm.ctermfg == 'NONE' then
+                separated.cterm.ctermfg = nil
+            end
+            if old_cterm.ctermbg == 'NONE' then
+                separated.cterm.ctermbg = nil
+            end
         end
         if not separated.gui and separated.cterm then
             separated.gui = builder.cterm_to_gui(separated.cterm)
