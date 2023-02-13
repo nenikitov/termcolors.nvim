@@ -327,10 +327,13 @@ return function(t, g)
                 underline = true,
                 sp = g.normal.yellow
             }
-        }
+        },
         --#endregion
 
         --#region Whichkey
+        WhichKey = { link = 'Function' },
+        WhichKeyDesc = { link = 'String' },
+        WhichKeyGroup = { link = '@variable' },
         --#endregion
     }
 

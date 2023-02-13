@@ -47,7 +47,7 @@
 - [ ] Rainbow
 - [ ] Telescope
 - [x] Indent blankline
-- [ ] WhichKey
+- [x] WhichKey
 - [ ] Notify
 
 ### Supported file types
