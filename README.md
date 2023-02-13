@@ -44,7 +44,7 @@
 - [x] ToggleTerm
 - [x] GitSigns
 - [x] Satellite
-- [ ] Rainbow
+- [x] Rainbow
 - [ ] Telescope
 - [x] Indent blankline
 - [x] WhichKey

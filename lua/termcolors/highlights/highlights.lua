@@ -335,6 +335,44 @@ return function(t, g)
         WhichKeyDesc = { link = 'String' },
         WhichKeyGroup = { link = '@variable' },
         --#endregion
+
+        --#region Rainbow
+        rainbowcol1 = {
+            cterm = {
+                ctermfg = t.normal.yellow,
+            }
+        },
+        rainbowcol2 = {
+            cterm = {
+                ctermfg = t.normal.blue,
+            }
+        },
+        rainbowcol3 = {
+            cterm = {
+                ctermfg = t.normal.magenta,
+            }
+        },
+        rainbowcol4 = {
+            cterm = {
+                ctermfg = t.normal.cyan,
+            }
+        },
+        rainbowcol5 = {
+            cterm = {
+                ctermfg = t.normal.green,
+            }
+        },
+        rainbowcol6 = {
+            cterm = {
+                ctermfg = t.normal.red,
+            }
+        },
+        rainbowcol7 = {
+            cterm = {
+                ctermfg = t.normal.white,
+            }
+        },
+        --#endregion
     }
 
     return resolver.get()
