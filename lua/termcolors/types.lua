@@ -29,6 +29,7 @@
 ---@class GuiHighlight Highlight properties for GUI.
 ---@field fg string Text color.
 ---@field bg string Background color.
+---@field sp string Non-text color (underlines).
 ---@field bold boolean Bold.
 ---@field underline boolean Underline.
 ---@field undercurl boolean Curly underline.
@@ -93,7 +94,7 @@
 ---@field blue string Blue.
 ---@field magenta string Magenta.
 ---@field cyan string Cyan.
----@field White string White.
+---@field white string White.
 
 ---@class GuiColorTable All available colors for the GUI.
 ---@field primary GuiColorTablePrimary Most basic colors from the colorscheme.

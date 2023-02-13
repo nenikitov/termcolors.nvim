@@ -13,8 +13,7 @@ return function(t, g)
 
     resolver.set {
         --#region Cursor
-        Cursor = {
-            cterm = {
+        Cursor = { cterm = {
                 ctermbg = t.normal.black
             },
             gui = {
@@ -49,6 +48,7 @@ return function(t, g)
             'LineNr',
             { cterm = { ctermfg = t.normal.white } }
         ),
+        EndOfBuffer = copy_merge('LineNr'),
         --#endregion
 
         --#region Syntax highlighting
@@ -62,6 +62,8 @@ return function(t, g)
                 bg = g.primary.background,
             }
         },
+        SpecialKey = copy_merge('Comment'),
+        NonText = copy_merge('Comment'),
         Comment = {
             cterm = {
                 ctermfg = t.bright.black
@@ -185,21 +187,80 @@ return function(t, g)
         Repeat = copy_merge('Conditional'),
         --#endregion
 
-        --#region GitSigns
-        -- Signs
-        GitSignsAdd = {
+        --#region Diagnostics
+        DiagnosticError = {
             cterm = {
-                ctermfg = t.bright.green
+                ctermfg = t.bright.red
             }
         },
-        GitSignsChange = {
+        DiagnosticWarn = {
+            cterm = {
+                ctermfg = t.bright.yellow
+            }
+        },
+        DiagnosticInfo = {
             cterm = {
                 ctermfg = t.bright.blue
             }
         },
+        DiagnosticHint = {
+            cterm = {
+                ctermfg = t.normal.white
+            }
+        },
+        DiagnosticUnderlineError = {
+            cterm = {
+                cterm = { undercurl = true }
+            },
+            gui = {
+                undercurl = true,
+                sp = g.bright.red
+            }
+        },
+        DiagnosticUnderlineWarn = {
+            cterm = {
+                cterm = { undercurl = true }
+            },
+            gui = {
+                undercurl = true,
+                sp = g.bright.yellow
+            }
+        },
+        DiagnosticUnderlineInfo = {
+            cterm = {
+                cterm = { undercurl = true }
+            },
+            gui = {
+                undercurl = true,
+                sp = g.bright.blue
+            }
+        },
+        DiagnosticUnderlineHint = {
+            cterm = {
+                cterm = { undercurl = true }
+            },
+            gui = {
+                undercurl = true,
+                sp = g.normal.white
+            }
+        },
+        --#endregion
+
+        --#region GitSigns
+        -- Signs
+        GitSignsAdd = {
+            cterm = {
+                ctermfg = t.normal.green
+            }
+        },
+        GitSignsChange = {
+            cterm = {
+                ctermfg = t.normal.blue
+            }
+        },
         GitSignsDelete = {
             cterm = {
-                ctermfg = t.bright.red
+                ctermfg = t.normal.red
             }
         },
         GitSignsUntracked = copy_merge('GitSignsAdd'),
