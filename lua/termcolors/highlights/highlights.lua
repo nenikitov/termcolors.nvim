@@ -296,6 +296,32 @@ return function(t, g)
             }
         },
         --#endregion
+
+        --#region Indent Blankline
+        IndentBlanklineChar = {
+            cterm = {
+                ctermfg = t.bright.black
+            }
+        },
+        IndentBlanklineSpaceChar = copy_merge('IndentBlanklineChar'),
+        IndentBlanklineSpaceCharBlankline = copy_merge('IndentBlanklineSpaceChar'),
+        IndentBlanklineContextChar = {
+            cterm = {
+                ctermfg = t.normal.yellow
+            }
+        },
+        IndentBlanklineContextSpaceChar = copy_merge('IndentBlanklineContextChar'),
+        IndentBlanklineContextSpaceCharBlankline = copy_merge('IndentBlanklineContextSpaceChar'),
+        IndentBlanklineContextStart = {
+            cterm = {
+                cterm = { underline = true },
+            },
+            gui = {
+                underline = true,
+                sp = g.normal.yellow
+            }
+        }
+        --#endregion
     }
 
     return resolver.get()
