@@ -6,7 +6,7 @@ local Resolver = require('termcolors.highlights.resolver')
 --- Get highlights of the colorscheme.
 ---@param t TermColorTable Terminal colors.
 ---@param g GuiColorTable GUI colors.
----@return {[string]: SeparatedHighlight} highlight Highlight groups.
+---@return {[string]: SeparatedHighlightOrLink} highlight Highlight groups.
 return function(t, g)
     local resolver = Resolver()
     local copy_merge = resolver.copy_merge
@@ -19,7 +19,7 @@ return function(t, g)
             },
         },
         CursorLine = copy_merge('Cursor'),
-        CursorColumn = copy_merge('Cursor'),
+        CursorColumn = { link = 'MathParen' },
         --#endregion
 
         --#region Menus

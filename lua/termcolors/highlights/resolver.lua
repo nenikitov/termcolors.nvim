@@ -38,6 +38,7 @@ return function()
                 elseif type(v) == 'table' then
                     current = v
                 end
+                assert(current.link == nil, 'Cannot copy from linked highlights')
                 result = vim.tbl_deep_extend('force', result, current)
             end
             return result
@@ -45,7 +46,7 @@ return function()
     end
 
     --- Add new highlights.
-    ---@param new_highlights {[string]: SeparatedHighlight | fun(): SeparatedHighlight} Highlights to add.
+    ---@param new_highlights {[string]: SeparatedHighlightOrLink | fun(): SeparatedHighlight} Highlights to add.
     local function set_highlights(new_highlights)
         for k, v in pairs(new_highlights) do
             highlights[k] = v

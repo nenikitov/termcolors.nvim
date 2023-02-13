@@ -14,23 +14,32 @@ return function(colorscheme_options)
     local highlights_separated = generate_highlights_separated(t, g)
 
     for name, separated in pairs(highlights_separated) do
-        if colorscheme_options.high_color_cterm and separated.gui then
-            ---@type TermHighlight
-            local old_cterm = vim.deepcopy(separated.cterm)
-            separated.cterm = builder.gui_to_cterm(separated.gui)
-            if old_cterm.ctermfg == 'NONE' then
-                separated.cterm.ctermfg = nil
+        if separated.link then
+            -- Highlight is a link
+            highlights[name] = { link = separated.link }
+        else
+            -- Highlight has values to populate
+            if colorscheme_options.high_color_cterm and separated.gui then
+                -- We can and should adapt GUI style to CTERM
+                ---@type TermHighlight
+                local old_cterm = vim.deepcopy(separated.cterm)
+                separated.cterm = builder.gui_to_cterm(separated.gui)
+                if old_cterm.ctermfg == 'NONE' then
+                    separated.cterm.ctermfg = nil
+                end
+                if old_cterm.ctermbg == 'NONE' then
+                    separated.cterm.ctermbg = nil
+                end
             end
-            if old_cterm.ctermbg == 'NONE' then
-                separated.cterm.ctermbg = nil
+            if not separated.gui and separated.cterm then
+                -- We need to adapt CTERM style to GUI
+                separated.gui = builder.cterm_to_gui(separated.cterm)
             end
-        end
-        if not separated.gui and separated.cterm then
-            separated.gui = builder.cterm_to_gui(separated.cterm)
-        end
 
-        highlights[name] = vim.tbl_deep_extend('force', separated.cterm, separated.gui)
+            highlights[name] = vim.tbl_deep_extend('force', separated.cterm, separated.gui)
+        end
     end
+
     return highlights
 end
 
