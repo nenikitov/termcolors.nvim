@@ -34,7 +34,21 @@ return function(t, g)
                 bg = g.primary.background
             }
         },
-        Visual = copy_merge('Cursor'),
+        Visual = copy_merge('CursorLine'),
+        SignColumn = copy_merge('Normal'),
+        --#endregion
+
+        --#region Line numbers
+        LineNr = {
+            cterm = {
+                ctermfg = t.bright.black
+            }
+        },
+        CursorLineNr = copy_merge(
+            'CursorLine',
+            'LineNr',
+            { cterm = { ctermfg = t.normal.white } }
+        ),
         --#endregion
 
         --#region Syntax highlighting
@@ -169,6 +183,57 @@ return function(t, g)
         ['@keyword.return'] = copy_merge('Conditional'),
         ['@controlFlow'] = copy_merge('Conditional'),
         Repeat = copy_merge('Conditional'),
+        --#endregion
+
+        --#region GitSigns
+        -- Signs
+        GitSignsAdd = {
+            cterm = {
+                ctermfg = t.bright.green
+            }
+        },
+        GitSignsChange = {
+            cterm = {
+                ctermfg = t.bright.blue
+            }
+        },
+        GitSignsDelete = {
+            cterm = {
+                ctermfg = t.bright.red
+            }
+        },
+        GitSignsUntracked = copy_merge('GitSignsAdd'),
+        GitSignsTopdelete = copy_merge('GitSignsDelete'),
+        GitSignsChangedelete = copy_merge('GitSignsDelete'),
+        -- Line numbers
+        GitSignsAddLn = copy_merge('GitSignsAdd'),
+        GitSignsChangeLn = copy_merge('GitSignsChange'),
+        GitSignsDeleteLn = copy_merge('GitSignsDelete'),
+        -- Preview
+        GitSignsAddPreview = {
+            cterm = {
+                ctermbg = t.normal.green,
+            },
+            gui = {
+                bg = mix(g.primary.background, g.normal.green, 0.75)
+            }
+        },
+        GitSignsChangePreview = {
+            cterm = {
+                ctermbg = t.normal.blue,
+            },
+            gui = {
+                bg = mix(g.primary.background, g.normal.blue, 0.75)
+            }
+        },
+        GitSignsDeletePreview = {
+            cterm = {
+                ctermbg = t.normal.red,
+            },
+            gui = {
+                bg = mix(g.primary.background, g.normal.red, 0.75)
+            }
+        },
         --#endregion
     }
 

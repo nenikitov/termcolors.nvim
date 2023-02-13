@@ -72,7 +72,7 @@
 ---@field blue TermColor Blue.
 ---@field magenta TermColor Magenta.
 ---@field cyan TermColor Cyan.
----@field White TermColor White.
+---@field white TermColor White.
 
 ---@class TermColorTable All available colors for the terminal.
 ---@field primary TermColorTablePrimary Most basic colors from the colorscheme.
