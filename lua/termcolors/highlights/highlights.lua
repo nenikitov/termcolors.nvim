@@ -19,7 +19,7 @@ return function(t, g)
             },
         },
         CursorLine = copy_merge('Cursor'),
-        CursorColumn = { link = 'MathParen' },
+        CursorColumn = { link = 'CursorLine' },
         --#endregion
 
         --#region Menus
@@ -32,7 +32,7 @@ return function(t, g)
             }
         },
         Visual = copy_merge('CursorLine'),
-        SignColumn = copy_merge('Normal'),
+        SignColumn = { link = 'Normal' },
         MatchParen = {
             cterm = {
                 cterm = { bold = true }
@@ -55,7 +55,7 @@ return function(t, g)
             'LineNr',
             { cterm = { ctermfg = t.normal.white } }
         ),
-        EndOfBuffer = copy_merge('LineNr'),
+        EndOfBuffer = { link = 'LineNr' },
         --#endregion
 
         --#region Syntax highlighting
@@ -106,7 +106,7 @@ return function(t, g)
                 ctermfg = t.normal.blue
             }
         },
-        ['@decorator'] = copy_merge('PreProc'),
+        ['@decorator'] = { link = 'PreProc' },
         Constant = {
             cterm = {
                 ctermfg = t.normal.red
@@ -127,8 +127,8 @@ return function(t, g)
                 ctermfg = t.bright.yellow
             }
         },
-        Operator = copy_merge('Normal'),
-        Delimiter = copy_merge('Normal'),
+        Operator = { link = 'Normal' },
+        Delimiter = { link = 'Operator' },
         Function = {
             cterm = {
                 ctermfg = t.bright.blue
@@ -139,7 +139,7 @@ return function(t, g)
                 ctermfg = t.bright.magenta
             }
         },
-        ['@type.qualifier'] = copy_merge('Keyword'),
+        ['@type.qualifier'] = { link = 'Keyword' },
         ['@variable'] = {
             cterm = {
                 ctermfg = t.bright.red
@@ -170,7 +170,7 @@ return function(t, g)
                 ctermfg = t.normal.red
             }
         },
-        ['@constant.builtin'] = copy_merge('Constant'),
+        ['@constant.builtin'] = { link = 'Constant' },
         Number = {
             cterm = {
                 ctermfg = t.bright.yellow
@@ -181,17 +181,17 @@ return function(t, g)
                 ctermfg = t.bright.magenta
             }
         },
-        Statement = copy_merge('Keyword'),
-        ['@function.builtin'] = copy_merge('Keyword'),
-        ['@constructor'] = copy_merge('Type'),
+        Statement = { link = 'Keyword' },
+        ['@function.builtin'] = { link = 'Keyword' },
+        ['@constructor'] = { link = 'Type' },
         Conditional = {
             cterm = {
                 ctermfg = t.bright.yellow
             }
         },
-        ['@keyword.return'] = copy_merge('Conditional'),
-        ['@controlFlow'] = copy_merge('Conditional'),
-        Repeat = copy_merge('Conditional'),
+        ['@keyword.return'] = { link = 'Conditional' },
+        ['@controlFlow'] = { link = 'Conditional' },
+        Repeat = { link = 'Conditional' },
         --#endregion
 
         --#region Diagnostics
@@ -270,13 +270,13 @@ return function(t, g)
                 ctermfg = t.normal.red
             }
         },
-        GitSignsUntracked = copy_merge('GitSignsAdd'),
-        GitSignsTopdelete = copy_merge('GitSignsDelete'),
-        GitSignsChangedelete = copy_merge('GitSignsDelete'),
+        GitSignsUntracked = { link = 'GitSignsAdd' },
+        GitSignsTopdelete = { link = 'GitSignsDelete' },
+        GitSignsChangedelete = { link = 'GitSignsDelete' },
         -- Line numbers
-        GitSignsAddLn = copy_merge('GitSignsAdd'),
-        GitSignsChangeLn = copy_merge('GitSignsChange'),
-        GitSignsDeleteLn = copy_merge('GitSignsDelete'),
+        GitSignsAddLn = { link = 'GitSignsAdd' },
+        GitSignsChangeLn = { link = 'GitSignsChange' },
+        GitSignsDeleteLn = { link = 'GitSignsDelete' },
         -- Preview
         GitSignsAddPreview = {
             cterm = {
@@ -310,15 +310,15 @@ return function(t, g)
                 ctermfg = t.bright.black
             }
         },
-        IndentBlanklineSpaceChar = copy_merge('IndentBlanklineChar'),
-        IndentBlanklineSpaceCharBlankline = copy_merge('IndentBlanklineSpaceChar'),
+        IndentBlanklineSpaceChar = { link = 'IndentBlanklineChar' },
+        IndentBlanklineSpaceCharBlankline = { link = 'IndentBlanklineSpaceChar' },
         IndentBlanklineContextChar = {
             cterm = {
                 ctermfg = t.normal.yellow
             }
         },
-        IndentBlanklineContextSpaceChar = copy_merge('IndentBlanklineContextChar'),
-        IndentBlanklineContextSpaceCharBlankline = copy_merge('IndentBlanklineContextSpaceChar'),
+        IndentBlanklineContextSpaceChar = { link = 'IndentBlanklineContextChar' },
+        IndentBlanklineContextSpaceCharBlankline = { link = 'IndentBlanklineContextSpaceChar' },
         IndentBlanklineContextStart = {
             cterm = {
                 cterm = { underline = true },
