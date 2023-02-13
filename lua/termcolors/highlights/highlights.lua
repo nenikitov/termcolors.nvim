@@ -13,12 +13,10 @@ return function(t, g)
 
     resolver.set {
         --#region Cursor
-        Cursor = { cterm = {
+        Cursor = {
+            cterm = {
                 ctermbg = t.normal.black
             },
-            gui = {
-                bg = mix(g.primary.background, g.normal.black, 0.85)
-            }
         },
         CursorLine = copy_merge('Cursor'),
         CursorColumn = copy_merge('Cursor'),
@@ -35,6 +33,15 @@ return function(t, g)
         },
         Visual = copy_merge('CursorLine'),
         SignColumn = copy_merge('Normal'),
+        MatchParen = {
+            cterm = {
+                cterm = { bold = true }
+            },
+            gui = {
+                bg = mix(g.normal.black, g.bright.black, 0.5),
+                bold = true
+            }
+        },
         --#endregion
 
         --#region Line numbers
@@ -321,6 +328,9 @@ return function(t, g)
                 sp = g.normal.yellow
             }
         }
+        --#endregion
+
+        --#region Whichkey
         --#endregion
     }
 

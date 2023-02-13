@@ -37,18 +37,18 @@
 
 ### Supported plugins / features
 
-- LSP
-- NvimTree
-- LuaLine
-- BufferLine
-- ToggleTerm
-- GitSigns
-- ScrollBar
-- Rainbow
-- Telescope
-- Indent blankline
-- WhicKey
-- Notify
+- [x] LSP
+- [ ] NvimTree
+- [ ] LuaLine
+- [ ] BufferLine
+- [x] ToggleTerm
+- [x] GitSigns
+- [x] Satellite
+- [ ] Rainbow
+- [ ] Telescope
+- [x] Indent blankline
+- [ ] WhichKey
+- [ ] Notify
 
 ### Supported file types
 

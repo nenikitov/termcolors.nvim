@@ -60,6 +60,7 @@
 ---@field cterm TermHighlight Highlights for terminal.
 ---@field gui GuiHighlight Highlights for GUI.
 
+---@alias SeparatedHighlightOrLink SeparatedHighlight | { link: string }
 
 ---@class TermColorTablePrimary Basic section of colors for terminal.
 ---@field background TermColor Background color.
