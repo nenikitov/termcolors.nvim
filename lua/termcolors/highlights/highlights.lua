@@ -562,6 +562,40 @@ return function(t, g)
         NotifyTRACETitle = { link = 'NotifyTRACEIcon' },
         NotifyTRACEBody = { link = 'Normal' },
         --#endregion
+
+        --#region NvimTree
+        -- Git
+        NvimTreeGitNew = { link = 'GitSignsAdd' },
+        NvimTreeGitRenamed = { link = 'GitSignsAdd' },
+        NvimTreeGitDirty = { link = 'GitSignsChange' },
+        NvimTreeGitDeleted = { link = 'GitSignsDelete' },
+        NvimTreeGitMerge = {
+            cterm = {
+                ctermfg = t.normal.magenta
+            }
+        },
+        NvimTreeGitIgnored = {
+            cterm = {
+                ctermfg = t.bright.black
+            }
+        },
+        NvimTreeGitStaged = {
+            cterm = {
+                ctermfg = t.normal.yellow
+            }
+        },
+        -- Folders
+        Directory = { link = 'Normal' },
+        NvimTreeIndentMarker = { link = 'IndentBlanklineChar' },
+        NvimTreeFolderIcon = { link = 'IndentBlanklineContextChar' },
+        -- Other
+        NvimTreeNormal = { link = 'PMenu' },
+        NvimTreeBookmark = {
+            cterm = {
+                ctermfg = t.normal.yellow
+            }
+        },
+        --#endregion
     }
 
     return resolver.get()

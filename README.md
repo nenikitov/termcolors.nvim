@@ -38,7 +38,8 @@
 ### Supported plugins / features
 
 - [x] LSP
-- [ ] NvimTree
+- [ ] Cmp
+- [x] NvimTree
 - [x] LuaLine
 - [ ] BufferLine
 - [x] ToggleTerm
