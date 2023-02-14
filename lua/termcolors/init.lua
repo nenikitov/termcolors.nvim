@@ -1,5 +1,6 @@
 local options_default = require('termcolors.options')
 local generate_highlights = require('termcolors.highlights')
+local setup_plugins = require('termcolors.plugins')
 
 local T = {}
 
@@ -20,6 +21,9 @@ function T.setup(options_user)
     for name, highlight in pairs(generate_highlights(options)) do
         vim.api.nvim_set_hl(0, name, highlight)
     end
+
+    -- Plugins
+    setup_plugins()
 end
 
 return T

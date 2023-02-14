@@ -39,13 +39,13 @@
 
 - [x] LSP
 - [ ] NvimTree
-- [ ] LuaLine
+- [x] LuaLine
 - [ ] BufferLine
 - [x] ToggleTerm
 - [x] GitSigns
 - [x] Satellite
 - [x] Rainbow
-- [ ] Telescope
+- [x] Telescope
 - [x] Indent blankline
 - [x] WhichKey
 - [ ] Notify

@@ -302,6 +302,10 @@ return function(t, g)
                 bg = mix(g.primary.background, g.normal.red, 0.75)
             }
         },
+        -- Diff
+        DiffAdd = copy_merge('GitSignsAdd'),
+        DiffChange = copy_merge('GitSignsChange'),
+        DiffDelete = copy_merge('GitSignsDelete'),
         --#endregion
 
         --#region Indent Blankline
@@ -372,6 +376,123 @@ return function(t, g)
                 ctermfg = t.normal.white,
             }
         },
+        --#endregion
+
+        --#region Telescope
+        TelescopeTitle = { link = 'FloatTitle' },
+        TelescopeBorder = { link = 'FloatBorder' },
+        TelescopeMatching = { link = 'Search' },
+        --#endregion
+
+        --#region LuaLine
+        -- Normal
+        LuaLineNormalA = {
+            cterm = {
+                ctermfg = t.normal.white,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineNormalB = copy_merge(
+            'LuaLineNormalA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineNormalC = {
+            cterm = {
+                ctermfg = t.normal.white,
+                ctermbg = t.normal.black
+            }
+        },
+        -- Insert
+        LuaLineInsertA = {
+            cterm = {
+                ctermfg = t.bright.green,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineInsertB = copy_merge(
+            'LuaLineInsertA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineInsertC = copy_merge('LuaLineNormalC'),
+        -- Visual
+        LuaLineVisualA = {
+            cterm = {
+                ctermfg = t.bright.blue,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineVisualB = copy_merge(
+            'LuaLineVisualA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineVisualC = copy_merge('LuaLineNormalC'),
+        -- Replace
+        LuaLineReplaceA = {
+            cterm = {
+                ctermfg = t.bright.red,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineReplaceB = copy_merge(
+            'LuaLineReplaceA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineReplaceC = copy_merge('LuaLineNormalC'),
+        -- Command
+        LuaLineCommandA = {
+            cterm = {
+                ctermfg = t.bright.magenta,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineCommandB = copy_merge(
+            'LuaLineCommandA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineCommandC = copy_merge('LuaLineNormalC'),
+        -- Inactive
+        LuaLineInactiveA = {
+            cterm = {
+                ctermfg = t.normal.white,
+                cterm = { reverse = true, bold = true }
+            }
+        },
+        LuaLineInactiveB = copy_merge(
+            'LuaLineInactiveA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineInactiveC = copy_merge('LuaLineNormalC'),
+        -- TODO Better GIT and Diagnostics highlight
         --#endregion
     }
 
