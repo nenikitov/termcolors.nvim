@@ -48,7 +48,7 @@
 - [x] Telescope
 - [x] Indent blankline
 - [x] WhichKey
-- [ ] Notify
+- [x] Notify
 
 ### Supported file types
 

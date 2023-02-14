@@ -494,6 +494,74 @@ return function(t, g)
         LuaLineInactiveC = copy_merge('LuaLineNormalC'),
         -- TODO Better GIT and Diagnostics highlight
         --#endregion
+
+        --#region Notify
+        -- Error
+        NotifyERRORBorder = {
+            cterm = {
+                ctermfg = t.normal.red
+            }
+        },
+        NotifyERRORIcon = {
+            cterm = {
+                ctermfg = t.bright.red
+            }
+        },
+        NotifyERRORTitle = { link = 'NotifyERRORIcon' },
+        NotifyERRORBody = { link = 'Normal' },
+        -- Warning
+        NotifyWARNBorder = {
+            cterm = {
+                ctermfg = t.normal.yellow
+            }
+        },
+        NotifyWARNIcon = {
+            cterm = {
+                ctermfg = t.bright.yellow
+            }
+        },
+        NotifyWARNTitle = { link = 'NotifyWARNIcon' },
+        NotifyWARNBody = { link = 'Normal' },
+        -- Info
+        NotifyINFOBorder = {
+            cterm = {
+                ctermfg = t.normal.blue
+            }
+        },
+        NotifyINFOIcon = {
+            cterm = {
+                ctermfg = t.bright.blue
+            }
+        },
+        NotifyINFOTitle = { link = 'NotifyINFOIcon' },
+        NotifyINFOBody = { link = 'Normal' },
+        -- Debug
+        NotifyDEBUGBorder = {
+            cterm = {
+                ctermfg = t.bright.black
+            }
+        },
+        NotifyDEBUGIcon = {
+            cterm = {
+                ctermfg = t.normal.white
+            }
+        },
+        NotifyDEBUGTitle = { link = 'NotifyDEBUGIcon' },
+        NotifyDEBUGBody = { link = 'Normal' },
+        -- Trace
+        NotifyTRACEBorder = {
+            cterm = {
+                ctermfg = t.normal.magenta
+            }
+        },
+        NotifyTRACEIcon = {
+            cterm = {
+                ctermfg = t.bright.magenta
+            }
+        },
+        NotifyTRACETitle = { link = 'NotifyTRACEIcon' },
+        NotifyTRACEBody = { link = 'Normal' },
+        --#endregion
     }
 
     return resolver.get()
