@@ -27,9 +27,9 @@
 ---@field cterm TermFontModifier Font modifiers.
 
 ---@class GuiHighlight Highlight properties for GUI.
----@field fg string Text color.
----@field bg string Background color.
----@field sp string Non-text color (underlines).
+---@field fg string | nil Text color.
+---@field bg string | nil Background color.
+---@field sp string | nil Non-text color (underlines).
 ---@field bold boolean Bold.
 ---@field underline boolean Underline.
 ---@field undercurl boolean Curly underline.

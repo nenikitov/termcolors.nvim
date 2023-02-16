@@ -66,7 +66,7 @@ return function(t, g)
             },
             gui = {
                 fg = g.primary.foreground,
-                bg = g.primary.background,
+                bg = nil,
             }
         },
         SpecialKey = copy_merge('Comment'),
@@ -182,7 +182,7 @@ return function(t, g)
             }
         },
         Statement = { link = 'Keyword' },
-        ['@function.builtin'] = { link = 'Keyword' },
+        ['@function.builtin'] = { link = 'Function' },
         ['@constructor'] = { link = 'Type' },
         Conditional = {
             cterm = {
@@ -192,6 +192,12 @@ return function(t, g)
         ['@keyword.return'] = { link = 'Conditional' },
         ['@controlFlow'] = { link = 'Conditional' },
         Repeat = { link = 'Conditional' },
+        Title = {
+            cterm = {
+                ctermfg = t.bright.yellow,
+                cterm = { bold = true }
+            }
+        },
         --#endregion
 
         --#region Diagnostics
@@ -407,6 +413,21 @@ return function(t, g)
                 ctermbg = t.normal.black
             }
         },
+        LuaLineNormalAB = copy_merge(
+            'LuaLineNormalA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineNormalBC = {
+            cterm = {
+                ctermfg = t.bright.black,
+                ctermbg = t.normal.black
+            }
+        },
         -- Insert
         LuaLineInsertA = {
             cterm = {
@@ -424,6 +445,16 @@ return function(t, g)
             }
         ),
         LuaLineInsertC = copy_merge('LuaLineNormalC'),
+        LuaLineInsertAB = copy_merge(
+            'LuaLineInsertA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineInsertBC = copy_merge('LuaLineNormalBC'),
         -- Visual
         LuaLineVisualA = {
             cterm = {
@@ -441,6 +472,16 @@ return function(t, g)
             }
         ),
         LuaLineVisualC = copy_merge('LuaLineNormalC'),
+        LuaLineVisualAB = copy_merge(
+            'LuaLineVisualA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineVisualBC = copy_merge('LuaLineNormalBC'),
         -- Replace
         LuaLineReplaceA = {
             cterm = {
@@ -458,6 +499,16 @@ return function(t, g)
             }
         ),
         LuaLineReplaceC = copy_merge('LuaLineNormalC'),
+        LuaLineReplaceAB = copy_merge(
+            'LuaLineReplaceA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineReplaceBC = copy_merge('LuaLineNormalBC'),
         -- Command
         LuaLineCommandA = {
             cterm = {
@@ -475,6 +526,16 @@ return function(t, g)
             }
         ),
         LuaLineCommandC = copy_merge('LuaLineNormalC'),
+        LuaLineCommandAB = copy_merge(
+            'LuaLineCommandA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineCommandBC = copy_merge('LuaLineNormalBC'),
         -- Inactive
         LuaLineInactiveA = {
             cterm = {
@@ -492,6 +553,16 @@ return function(t, g)
             }
         ),
         LuaLineInactiveC = copy_merge('LuaLineNormalC'),
+        LuaLineInactiveAB = copy_merge(
+            'LuaLineInactiveA',
+            {
+                cterm = {
+                    ctermbg = t.bright.black,
+                    cterm = { reverse = false }
+                }
+            }
+        ),
+        LuaLineInactiveBC = copy_merge('LuaLineNormalBC'),
         -- TODO Better GIT and Diagnostics highlight
         --#endregion
 
@@ -584,20 +655,25 @@ return function(t, g)
                 ctermfg = t.normal.yellow
             }
         },
+        NvimTreeModifiedFile = { link = 'NvimTreeGitDirty' },
         -- Folders
         Directory = { link = 'Normal' },
         NvimTreeIndentMarker = { link = 'IndentBlanklineChar' },
         NvimTreeFolderIcon = { link = 'IndentBlanklineContextChar' },
+        NvimTreeRootFolder = { link = 'Title' },
         -- Other
         NvimTreeNormal = { link = 'PMenu' },
         NvimTreeBookmark = {
             cterm = {
-                ctermfg = t.normal.yellow
+                ctermfg = t.bright.yellow
             }
         },
+        NvimTreeWindowPicker = copy_merge(
+            'Title',
+            { cterm = { cterm = { reverse = true }}}
+        )
         --#endregion
     }
 
     return resolver.get()
 end
-
