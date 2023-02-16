@@ -127,8 +127,8 @@ return function(t, g)
                 ctermfg = t.bright.yellow
             }
         },
-        Operator = { link = 'Normal' },
-        Delimiter = { link = 'Operator' },
+        Operator = { link = 'Conditional' },
+        Delimiter = { link = 'Normal' },
         Function = {
             cterm = {
                 ctermfg = t.bright.blue
@@ -198,6 +198,17 @@ return function(t, g)
                 cterm = { bold = true }
             }
         },
+        ['@ponctuation.delimiter'] = { link = 'Delimiter' },
+        Tag = { link = 'Structure' },
+        htmlTag = { link = 'Tag' },
+        htmlTagName = { link = 'Tag' },
+        htmlArg = { link = '@property' },
+        ['@tag.attribute'] = { link = '@property' },
+        Underlined = {
+            cterm = {
+                cterm = { underline = true }
+            }
+        },
         --#endregion
 
         --#region Diagnostics
@@ -257,6 +268,16 @@ return function(t, g)
                 sp = g.normal.white
             }
         },
+        --#endregion
+
+        --#region Packer
+        WarningMsg = { link = 'DiagnosticWarn' },
+        packerStatusSuccess = {
+            cterm = {
+                ctermfg = t.bright.green
+            }
+        },
+        packerSuccess = { link = 'packerStatusSuccess' },
         --#endregion
 
         --#region GitSigns
@@ -394,7 +415,7 @@ return function(t, g)
         -- Normal
         LuaLineNormalA = {
             cterm = {
-                ctermfg = t.normal.white,
+                ctermfg = t.normal.cyan,
                 cterm = { reverse = true, bold = true }
             }
         },
@@ -661,8 +682,22 @@ return function(t, g)
         NvimTreeIndentMarker = { link = 'IndentBlanklineChar' },
         NvimTreeFolderIcon = { link = 'IndentBlanklineContextChar' },
         NvimTreeRootFolder = { link = 'Title' },
-        -- Other
+        -- Types
         NvimTreeNormal = { link = 'PMenu' },
+        NvimTreeSymlink = {
+            cterm = {
+                cterm = { italic = true }
+            }
+        },
+        NvimTreeOpenedFile = {
+            cterm = {
+                cterm = { bold = true }
+            }
+        },
+        NvimTreeExecFile = { link = 'NvimTreeNormal' },
+        NvimTreeImageFile = { link = 'NvimTreeNormal' },
+        NvimTreeSpecialFile = { link = 'NvimTreeNormal' },
+        -- Other
         NvimTreeBookmark = {
             cterm = {
                 ctermfg = t.bright.yellow
@@ -671,7 +706,9 @@ return function(t, g)
         NvimTreeWindowPicker = copy_merge(
             'Title',
             { cterm = { cterm = { reverse = true }}}
-        )
+        ),
+        NvimTreeLiveFilterValue = { link = 'NvimTreeNormal' },
+        NvimTreeLiveFilterPrefix = { link = 'NvimTreeRootFolder' },
         --#endregion
     }
 

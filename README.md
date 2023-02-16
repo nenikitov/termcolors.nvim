@@ -50,6 +50,7 @@
 - [x] Indent blankline
 - [x] WhichKey
 - [x] Notify
+- [ ] Packer
 
 ### Supported file types
 
