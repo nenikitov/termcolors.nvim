@@ -10,6 +10,7 @@ return function ()
                         b = 'LuaLineNormalB',
                         c = 'LuaLineNormalC',
                         transitional_lualine_a_normal_to_lualine_b = 'LuaLineNormalAB',
+                        transitional_lualine_a_normal_to_lualine_c = 'LuaLineNormalAC',
                         transitional_lualine_b_normal_to_lualine_c = 'LuaLineNormalBC',
                     },
                     insert = {
@@ -17,6 +18,7 @@ return function ()
                         b = 'LuaLineInsertB',
                         c = 'LuaLineInsertC',
                         transitional_lualine_a_insert_to_lualine_b = 'LuaLineInsertAB',
+                        transitional_lualine_a_insert_to_lualine_c = 'LuaLineInsertAC',
                         transitional_lualine_b_insert_to_lualine_c = 'LuaLineInsertBC',
                     },
                     visual = {
@@ -24,6 +26,7 @@ return function ()
                         b = 'LuaLineVisualB',
                         c = 'LuaLineVisualC',
                         transitional_lualine_a_visual_to_lualine_b = 'LuaLineVisualAB',
+                        transitional_lualine_a_visual_to_lualine_c = 'LuaLineVisualAC',
                         transitional_lualine_b_visual_to_lualine_c = 'LuaLineVisualBC',
                     },
                     replace = {
@@ -31,6 +34,7 @@ return function ()
                         b = 'LuaLineReplaceB',
                         c = 'LuaLineReplaceC',
                         transitional_lualine_a_replace_to_lualine_b = 'LuaLineReplaceAB',
+                        transitional_lualine_a_replace_to_lualine_c = 'LuaLineReplaceAC',
                         transitional_lualine_b_replace_to_lualine_c = 'LuaLineReplaceBC',
                     },
                     command = {
@@ -38,6 +42,7 @@ return function ()
                         b = 'LuaLineCommandB',
                         c = 'LuaLineCommandC',
                         transitional_lualine_a_command_to_lualine_b = 'LuaLineCommandAB',
+                        transitional_lualine_a_command_to_lualine_c = 'LuaLineCommandAC',
                         transitional_lualine_b_command_to_lualine_c = 'LuaLineCommandBC',
                     },
                     inactive = {
@@ -45,6 +50,7 @@ return function ()
                         b = 'LuaLineInactiveB',
                         c = 'LuaLineInactiveC',
                         transitional_lualine_a_inactive_to_lualine_b = 'LuaLineInactiveAB',
+                        transitional_lualine_a_inactive_to_lualine_c = 'LuaLineInactiveAC',
                         transitional_lualine_b_inactive_to_lualine_c = 'LuaLineInactiveBC',
                     },
                 }

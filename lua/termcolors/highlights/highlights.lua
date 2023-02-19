@@ -434,14 +434,11 @@ return function(t, g)
                 ctermbg = t.normal.black
             }
         },
-        LuaLineNormalAB = copy_merge(
+        LuaLineNormalAB = { link = 'LuaLineNormalB' },
+        LuaLineNormalAC = copy_merge(
+            'LuaLineNormalC',
             'LuaLineNormalA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineNormalBC = {
             cterm = {
@@ -466,14 +463,11 @@ return function(t, g)
             }
         ),
         LuaLineInsertC = copy_merge('LuaLineNormalC'),
-        LuaLineInsertAB = copy_merge(
+        LuaLineInsertAB = { link = 'LuaLineInsertB' },
+        LuaLineInsertAC = copy_merge(
+            'LuaLineInsertC',
             'LuaLineInsertA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineInsertBC = copy_merge('LuaLineNormalBC'),
         -- Visual
@@ -493,14 +487,11 @@ return function(t, g)
             }
         ),
         LuaLineVisualC = copy_merge('LuaLineNormalC'),
-        LuaLineVisualAB = copy_merge(
+        LuaLineVisualAB = { link = 'LuaLineVisualB' },
+        LuaLineVisualAC = copy_merge(
+            'LuaLineVisualC',
             'LuaLineVisualA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineVisualBC = copy_merge('LuaLineNormalBC'),
         -- Replace
@@ -520,14 +511,11 @@ return function(t, g)
             }
         ),
         LuaLineReplaceC = copy_merge('LuaLineNormalC'),
-        LuaLineReplaceAB = copy_merge(
+        LuaLineReplaceAB = { link = 'LuaLineReplaceB' },
+        LuaLineReplaceAC = copy_merge(
+            'LuaLineReplaceC',
             'LuaLineReplaceA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineReplaceBC = copy_merge('LuaLineNormalBC'),
         -- Command
@@ -547,14 +535,11 @@ return function(t, g)
             }
         ),
         LuaLineCommandC = copy_merge('LuaLineNormalC'),
-        LuaLineCommandAB = copy_merge(
+        LuaLineCommandAB = { link = 'LuaLineCommandB' },
+        LuaLineCommandAC = copy_merge(
+            'LuaLineCommandC',
             'LuaLineCommandA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineCommandBC = copy_merge('LuaLineNormalBC'),
         -- Inactive
@@ -574,14 +559,11 @@ return function(t, g)
             }
         ),
         LuaLineInactiveC = copy_merge('LuaLineNormalC'),
-        LuaLineInactiveAB = copy_merge(
-            'LuaLineInactiveA',
-            {
-                cterm = {
-                    ctermbg = t.bright.black,
-                    cterm = { reverse = false }
-                }
-            }
+        LuaLineInactiveAB = { link = 'LuaLineInactiveB' },
+        LuaLineInnactiveAC = copy_merge(
+            'LuaLineInnactiveC',
+            'LuaLineInnactiveA',
+            { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineInactiveBC = copy_merge('LuaLineNormalBC'),
         -- TODO Better GIT and Diagnostics highlight
