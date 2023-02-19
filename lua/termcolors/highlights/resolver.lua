@@ -38,7 +38,7 @@ return function()
                 elseif type(v) == 'table' then
                     current = v
                 end
-                assert(current.link == nil, 'Cannot copy from linked highlights')
+                assert(current ~= nil, 'Invalid highlight for ' .. vim.inspect(v))
                 result = vim.tbl_deep_extend('force', result, current)
             end
             return result

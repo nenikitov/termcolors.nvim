@@ -560,9 +560,9 @@ return function(t, g)
         ),
         LuaLineInactiveC = copy_merge('LuaLineNormalC'),
         LuaLineInactiveAB = { link = 'LuaLineInactiveB' },
-        LuaLineInnactiveAC = copy_merge(
-            'LuaLineInnactiveC',
-            'LuaLineInnactiveA',
+        LuaLineInactiveAC = copy_merge(
+            'LuaLineInactiveC',
+            'LuaLineInactiveA',
             { cterm = { cterm = { reverse = false }}}
         ),
         LuaLineInactiveBC = copy_merge('LuaLineNormalBC'),
