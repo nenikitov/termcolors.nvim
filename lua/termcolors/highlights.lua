@@ -38,6 +38,11 @@ return function(options)
                 fg = 'NONE',
             },
         })
+        set('Visual', {
+            term = {
+                bg = 4
+            }
+        })
         set('PMenu', {
             term = {
                 bg = 0,
@@ -210,5 +215,56 @@ return function(options)
                 fg = get('DiffAdd').term.bg + 8
             }
         })
+
+        -- Syntax
+        set('Statement', {
+            term = {
+                fg = 13
+            }
+        })
+        set('Identifier', {
+            term = {
+                fg = 9
+            }
+        })
+        set('Constant', {
+            term = {
+                fg = 11
+            }
+        })
+        set('Operator', {
+            link = 'Delimiter'
+        })
+        set('Delimiter', {
+            term = {
+                fg = 7
+            }
+        })
+        set('Comment', {
+            term = {
+                fg = 8,
+                style = {
+                    italic = true
+                }
+            }
+        })
+        set('Macro', { link = 'Statement' })
+        set('Type', {
+            term = {
+                fg = 11
+            }
+        })
+        set('Function', {
+            term = {
+                fg = 14
+            }
+        })
+        set('Special', {
+            term = {
+                fg = 11
+            }
+        })
+        set('@constructor', { link = 'Type' })
+        set('@function.builtin', { link = 'Function' })
     end)
 end
