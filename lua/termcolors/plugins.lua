@@ -1,8 +1,8 @@
 local lualine_status, lualine = pcall(require, 'lualine')
 
-return function ()
+return function()
     if lualine_status then
-        lualine.setup {
+        lualine.setup({
             options = {
                 theme = {
                     normal = {
@@ -53,9 +53,8 @@ return function ()
                         transitional_lualine_a_inactive_to_lualine_c = 'LuaLineInactiveAC',
                         transitional_lualine_b_inactive_to_lualine_c = 'LuaLineInactiveBC',
                     },
-                }
-            }
-        }
+                },
+            },
+        })
     end
 end
-
