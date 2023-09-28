@@ -78,27 +78,27 @@ return function(options)
         -- Diagnostics
         set('DiagnosticError', {
             term = {
-                fg = 9
+                fg = 1
             }
         })
         set('DiagnosticWarn', {
             term = {
-                fg = 11
+                fg = 3
             }
         })
         set('DiagnosticInfo', {
             term = {
-                fg = 12
+                fg = 4
             }
         })
         set('DiagnosticHint', {
             term = {
-                fg = 13
+                fg = 5
             }
         })
         set('DiagnosticOk', {
             term = {
-                fg = 10
+                fg = 2
             }
         })
         set('DiagnosticSignError', { link = 'DiagnosticError' })
@@ -149,53 +149,53 @@ return function(options)
         set('DiagnosticVirtualTextError', {
             term = {
                 fg = get('DiagnosticError').term.fg,
-                bg = get('DiagnosticError').term.fg - 8,
+                bg = get('CursorLine').term.bg,
             }
         })
         set('DiagnosticVirtualTextWarn', {
             term = {
                 fg = get('DiagnosticWarn').term.fg,
-                bg = get('DiagnosticWarn').term.fg - 8,
+                bg = get('CursorLine').term.bg,
             }
         })
         set('DiagnosticVirtualTextInfo', {
             term = {
                 fg = get('DiagnosticInfo').term.fg,
-                bg = get('DiagnosticInfo').term.fg - 8,
+                bg = get('CursorLine').term.bg,
             }
         })
         set('DiagnosticVirtualTextHint', {
             term = {
                 fg = get('DiagnosticHint').term.fg,
-                bg = get('DiagnosticHint').term.fg - 8,
+                bg = get('CursorLine').term.bg,
             }
         })
         set('DiagnosticVirtualTextOk', {
             term = {
                 fg = get('DiagnosticOk').term.fg,
-                bg = get('DiagnosticOk').term.fg - 8,
+                bg = get('CursorLine').term.bg,
             }
         })
 
         -- Diff
         set('DiffDelete', {
             term = {
-                bg = get('DiagnosticError').term.fg - 8
+                bg = get('DiagnosticError').term.fg
             }
         })
         set('DiffChange', {
             term = {
-                bg = get('DiagnosticWarn').term.fg - 8
+                bg = get('DiagnosticWarn').term.fg
             }
         })
         set('DiffText', {
             term = {
-                bg = get('DiagnosticHint').term.fg - 8
+                bg = get('DiagnosticHint').term.fg
             }
         })
         set('DiffAdd', {
             term = {
-                bg = get('DiagnosticOk').term.fg - 8
+                bg = get('DiagnosticOk').term.fg
             }
         })
 
@@ -219,17 +219,17 @@ return function(options)
         -- Syntax
         set('Statement', {
             term = {
-                fg = 13
+                fg = 5
             }
         })
         set('Identifier', {
             term = {
-                fg = 9
+                fg = 1
             }
         })
         set('Constant', {
             term = {
-                fg = 11
+                fg = 3
             }
         })
         set('Operator', {
@@ -256,12 +256,12 @@ return function(options)
         })
         set('Function', {
             term = {
-                fg = 14
+                fg = 6
             }
         })
         set('Special', {
             term = {
-                fg = 11
+                fg = 3
             }
         })
         set('@constructor', { link = 'Type' })
