@@ -6,7 +6,7 @@ local T = {}
 
 function T.setup(options_user)
     -- Parse options
-    local options = vim.tbl_deep_extend('force', options_default, options_user or {})
+    local options = vim.tbl_extend('force', options_default, options_user or {})
 
     -- Clear highlighting
     vim.cmd('hi clear')
