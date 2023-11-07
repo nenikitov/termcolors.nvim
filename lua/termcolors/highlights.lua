@@ -112,6 +112,7 @@ return function(options)
             },
         })
         set('CursorColumn', { link = 'CursorLine' })
+        set('Cursor', { link = 'TermCursor' })
 
         -- Gutter
         set('SignColumn', {
@@ -256,6 +257,11 @@ return function(options)
         set('TelescopeTitle', { link = 'FloatTitle' })
         set('TelescopePromptTitle', { link = 'Special' })
         set('TelescopeMatching', { link = 'IncSearch' })
+        set('TelescopePromptPrefix', { link = 'TelescopePromptTitle' })
+
+        -- Lazy
+
+        -- Mason
 
         -- Gitsigns
         ---@param sign 'Delete' | 'Change' | 'Add'
@@ -268,6 +274,9 @@ return function(options)
             set('GitSignsStaged' .. sign, {
                 tty = {
                     fg = Term.darken(get('GitSigns' .. sign).tty.fg),
+                },
+                gui = {
+                    fg = blend_accent(lookup(Term.darken(get('GitSigns' .. sign).tty.fg)), 30),
                 },
             })
         end
@@ -290,6 +299,51 @@ return function(options)
                 fg = indexes.normal.white,
             },
         })
+
+        -- Notify
+        ---@param kind 'ERROR' | 'WARN' | 'INFO' | 'TRACE' | 'Log'
+        ---@param diagnostic 'Error' | 'Warn' | 'Info' | 'Hint' | 'Ok'
+        local function set_notify(kind, diagnostic)
+            set('Notify' .. kind .. 'Icon', { link = 'DiagnosticSign' .. diagnostic })
+            set('Notify' .. kind .. 'Title', { link = 'Diagnostic' .. diagnostic })
+            set('Notify' .. kind .. 'Body', { link = 'Pmenu' })
+            set('Notify' .. kind .. 'Border', {
+                tty = {
+                    bg = get('Pmenu').tty.bg,
+                    fg = get('Diagnostic' .. diagnostic).tty.fg,
+                },
+                gui = {
+                    bg = get('Pmenu').gui.bg,
+                    fg = get('Pmenu').gui.bg:blend(get('Diagnostic' .. diagnostic).gui.fg, 0.5),
+                },
+            })
+        end
+        set_notify('ERROR', 'Error')
+        set_notify('WARN', 'Warn')
+        set_notify('INFO', 'Ok')
+        set_notify('TRACE', 'Hint')
+        set_notify('Log', 'Info')
+        set('NotifyBackground', { link = 'Pmenu' })
+
+        -- Noice
+        ---@param kind '' | 'Calculator' | 'Cmdline' | 'Search' | 'Rename' | 'Filter' | 'Input' | 'Help' | 'Lua'
+        ---@param link string
+        local function set_noice(kind, link)
+            set('NoiceCmdlineIcon' .. kind, { link = link })
+        end
+        set_noice('', 'Special')
+        set_noice('Calculator', 'DiagnosticOk')
+        set_noice('Cmdline', 'Special')
+        set_noice('Search', 'DiagnosticWarn')
+        set_noice('Rename', 'DiagnosticError')
+        set_noice('Filter', 'Keyword')
+        set_noice('Input', 'Special')
+        set_noice('Help', 'DiagnosticOk')
+        set_noice('Lua', 'DiagnosticInfo')
+        set('NoiceCmdlinePopup', { link = 'Pmenu' })
+        set('NoiceCmdlinePopupTitle', { link = 'Special' })
+        set('NoiceCmdlinePopupBorder', { link = 'FloatBorder' })
+        set('NoiceCmdlinePopupBorderSearch', { link = 'NoiceCmdlinePopupBorder' })
 
         -- CMP and Drop bar
 
@@ -576,6 +630,7 @@ return function(options)
         set('@function.macro', { link = 'Function' })
 
         set('@tag.attribute', { link = 'Constant' })
+        set('@keyword.return', { link = 'Statement' })
 
         -- Keywords
         set('@punctuation.special', { link = 'Operator' })
@@ -672,7 +727,7 @@ return function(options)
         set(
             'markdownBoldItalic',
             (function()
-                local style = get('@text.strong')
+                local style = vim.deepcopy(get('@text.strong'))
                 style.gui.style =
                     vim.tbl_extend('force', style.gui.style, get('@text.emphasis').gui.style)
                 return {

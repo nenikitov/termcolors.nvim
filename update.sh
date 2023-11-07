@@ -15,17 +15,17 @@ close_terminals() {
 trap close_terminals EXIT
 
 if [[ ${#} -eq 0 ]]; then
-    alacritty --hold -e ${0} reference 1>/dev/null 2>&1 &
-    TERMS+=($!)
+    # alacritty --hold -e ${0} reference 1>/dev/null 2>&1 &
+    # TERMS+=($!)
     alacritty --hold -e ${0} gui 1>/dev/null 2>&1 &
     TERMS+=($!)
     kitty -e ${0} tty 1>/dev/null 2>&1 &
     TERMS+=($!)
 
     HIGHLIGHTS="./lua/termcolors/highlights.lua"
+        #<ESC>:set termguicolors      |\
     COMMANDS_GUI=$(cat <<EOT
         m'
-        <ESC>:set termguicolors      |\
         :Lazy reload termcolors.nvim |\
         :colorscheme termcolors<CR>  |\
         <CR>''
