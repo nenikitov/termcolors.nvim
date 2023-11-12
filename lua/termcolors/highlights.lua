@@ -81,6 +81,9 @@ return function(options)
                 bg = blend_accent(lookup(indexes.normal.blue), 15),
             },
         })
+        set('Error', { link = 'DiagnosticError' })
+        set('ErrorMsg', { link = 'DiagnosticError' })
+        set('WarningMsg', { link = 'DiagnosticWarn' })
 
         -- Splits
         set('VertSplit', {
@@ -249,197 +252,6 @@ return function(options)
 
         --#endregion
 
-        --#region Plugins
-
-        -- Telescope
-        set('TelescopeNormal', { link = 'Pmenu' })
-        set('TelescopeBorder', { link = 'FloatBorder' })
-        set('TelescopeTitle', { link = 'FloatTitle' })
-        set('TelescopePromptTitle', { link = 'Special' })
-        set('TelescopeMatching', { link = 'IncSearch' })
-        set('TelescopePromptPrefix', { link = 'TelescopePromptTitle' })
-
-        -- Lazy
-
-        -- Mason
-
-        -- Gitsigns
-        ---@param sign 'Delete' | 'Change' | 'Add'
-        local function set_gitsign(sign)
-            set('GitSigns' .. sign, {
-                tty = {
-                    fg = Term.brighten(get('Diff' .. sign).tty.bg),
-                },
-            })
-            set('GitSignsStaged' .. sign, {
-                tty = {
-                    fg = Term.darken(get('GitSigns' .. sign).tty.fg),
-                },
-                gui = {
-                    fg = blend_accent(lookup(Term.darken(get('GitSigns' .. sign).tty.fg)), 30),
-                },
-            })
-        end
-        set_gitsign('Delete')
-        set_gitsign('Change')
-        set_gitsign('Add')
-        set('GitSignsTopdelete', { link = 'GitSignsDelete' })
-        set('GitSignsStagedTopdelete', { link = 'GitSignsStagedDelete' })
-        set('GitSignsChangedelete', { link = 'GitSignsDelete' })
-        set('GitSignsStagedChangedelete', { link = 'GitSignsStagedDelete' })
-
-        -- Indent blankline
-        set('IblIndent', {
-            tty = {
-                fg = indexes.bright.black,
-            },
-        })
-        set('IblScope', {
-            tty = {
-                fg = indexes.normal.white,
-            },
-        })
-
-        -- Notify
-        ---@param kind 'ERROR' | 'WARN' | 'INFO' | 'TRACE' | 'Log'
-        ---@param diagnostic 'Error' | 'Warn' | 'Info' | 'Hint' | 'Ok'
-        local function set_notify(kind, diagnostic)
-            set('Notify' .. kind .. 'Icon', { link = 'DiagnosticSign' .. diagnostic })
-            set('Notify' .. kind .. 'Title', { link = 'Diagnostic' .. diagnostic })
-            set('Notify' .. kind .. 'Body', { link = 'Pmenu' })
-            set('Notify' .. kind .. 'Border', {
-                tty = {
-                    bg = get('Pmenu').tty.bg,
-                    fg = get('Diagnostic' .. diagnostic).tty.fg,
-                },
-                gui = {
-                    bg = get('Pmenu').gui.bg,
-                    fg = get('Pmenu').gui.bg:blend(get('Diagnostic' .. diagnostic).gui.fg, 0.5),
-                },
-            })
-        end
-        set_notify('ERROR', 'Error')
-        set_notify('WARN', 'Warn')
-        set_notify('INFO', 'Ok')
-        set_notify('TRACE', 'Hint')
-        set_notify('Log', 'Info')
-        set('NotifyBackground', { link = 'Pmenu' })
-
-        -- Noice
-        ---@param kind '' | 'Calculator' | 'Cmdline' | 'Search' | 'Rename' | 'Filter' | 'Input' | 'Help' | 'Lua'
-        ---@param link string
-        local function set_noice(kind, link)
-            set('NoiceCmdlineIcon' .. kind, { link = link })
-        end
-        set_noice('', 'Special')
-        set_noice('Calculator', 'DiagnosticOk')
-        set_noice('Cmdline', 'Special')
-        set_noice('Search', 'DiagnosticWarn')
-        set_noice('Rename', 'DiagnosticError')
-        set_noice('Filter', 'Keyword')
-        set_noice('Input', 'Special')
-        set_noice('Help', 'DiagnosticOk')
-        set_noice('Lua', 'DiagnosticInfo')
-        set('NoiceCmdlinePopup', { link = 'Pmenu' })
-        set('NoiceCmdlinePopupTitle', { link = 'Special' })
-        set('NoiceCmdlinePopupBorder', { link = 'FloatBorder' })
-        set('NoiceCmdlinePopupBorderSearch', { link = 'NoiceCmdlinePopupBorder' })
-
-        -- CMP and Drop bar
-
-        ---@param item string
-        ---@param link string
-        local function set_cmp(item, link)
-            set('CmpItemKind' .. item, { link = link })
-            set('DropBarIconKind' .. item, { link = link })
-        end
-        set_cmp('', 'Keyword')
-        -- Keyword
-        set_cmp('BreakStatement', 'Keyword')
-        set_cmp('CaseStatement', 'Keyword')
-        set_cmp('ContinueStatement', 'Keyword')
-        set_cmp('Keyword', 'Keyword')
-        set_cmp('Statement', 'Statement')
-        set_cmp('IfStatement', 'Conditional')
-        set_cmp('SwitchStatement', 'Conditional')
-        set_cmp('DoStatement', 'Repeat')
-        set_cmp('ForStatement', 'Repeat')
-        set_cmp('WhileStatement', 'Repeat')
-        set_cmp('Copilot', 'Macro')
-        set_cmp('Macro', 'Macro')
-        set_cmp('Snippet', 'Macro')
-        -- Type
-        set_cmp('Class', '@lsp.type.class')
-        set_cmp('Enum', '@lsp.type.enum')
-        set_cmp('EnumMember', '@lsp.type.enumMember')
-        set_cmp('Interface', '@lsp.type.interface')
-        set_cmp('Module', '@lsp.type.namespace')
-        set_cmp('Namespace', '@lsp.type.namespace')
-        set_cmp('Package', '@lsp.type.namespace')
-        set_cmp('Object', '@lsp.type.struct')
-        set_cmp('Struct', '@lsp.type.struct')
-        set_cmp('Type', '@lsp.type.type')
-        set_cmp('TypeParameter', '@lsp.type.typeParameter')
-        -- Variables
-        set_cmp('Array', 'Identifier')
-        set_cmp('Identifier', 'Identifier')
-        set_cmp('Key', 'Identifier')
-        set_cmp('List', 'Identifier')
-        set_cmp('Variable', 'Identifier')
-        set_cmp('Property', '@property')
-        set_cmp('Field', '@property')
-        -- Constant
-        set_cmp('Boolean', 'Boolean')
-        set_cmp('Color', 'String')
-        set_cmp('Constant', 'Constant')
-        set_cmp('Value', 'Constant')
-        set_cmp('Null', '@constant.builtin')
-        set_cmp('Number', 'Number')
-        set_cmp('Unit', 'Number')
-        set_cmp('String', 'String')
-        -- Function
-        set_cmp('Call', 'Function')
-        set_cmp('Event', 'Function')
-        set_cmp('Function', 'Function')
-        set_cmp('Constructor', '@constructor')
-        set_cmp('Method', '@method')
-        set_cmp('Reference', '@text.reference')
-        -- Other
-        set_cmp('Text', '@text')
-        set_cmp('Folder', 'Directory')
-        set_cmp('File', 'Directory')
-        set_cmp('Operator', 'Operator')
-        -- Idk
-        set_cmp('Declaration', 'Keyword')
-        set_cmp('Delete', 'Keyword')
-        set_cmp('Log', 'Keyword')
-        set_cmp('Lsp', 'Keyword')
-        set_cmp('MarkdownH1', '@text.title.1')
-        set_cmp('MarkdownH2', '@text.title.2')
-        set_cmp('MarkdownH3', '@text.title.3')
-        set_cmp('MarkdownH4', '@text.title.4')
-        set_cmp('MarkdownH5', '@text.title.5')
-        set_cmp('MarkdownH6', '@text.title.6')
-        set_cmp('Regex', 'String')
-        set_cmp('Specifier', 'Keyword')
-        set_cmp('Terminal', 'Keyword')
-
-        --#endregion
-
-        --#region Files
-
-        set('Directory', {
-            link = 'Keyword',
-        })
-
-        --#endregion
-
-        --#region Text
-
-        set('SpecialKey', { link = 'Keyword' })
-
-        --#endregion
-
         --#region Syntax
 
         -- Constants
@@ -518,16 +330,272 @@ return function(options)
                 },
             },
         })
-        set('Error', { link = 'DiagnosticError' })
-        set('ErrorMsg', { link = 'DiagnosticError' })
-        set('WarningMsg', { link = 'DiagnosticWarn' })
-        set('Todo', {
+
+        --#endregion
+
+        --#region Plugins
+
+        -- Telescope
+
+        set('TelescopeNormal', { link = 'Pmenu' })
+        set('TelescopeBorder', { link = 'FloatBorder' })
+        set('TelescopeTitle', { link = 'FloatTitle' })
+        set('TelescopePromptTitle', { link = 'Special' })
+        set('TelescopeMatching', { link = 'IncSearch' })
+        set('TelescopePromptPrefix', { link = 'TelescopePromptTitle' })
+        set('TelescopeResultsClass', { link = 'Structure' })
+        set('TelescopeResultsConstant', { link = 'Constant' })
+        set('TelescopeResultsField', { link = '@field' })
+        set('TelescopeResultsFunction', { link = 'Function' })
+        set('TelescopeResultsMethod', { link = 'Function' })
+        set('TelescopeResultsOperator', { link = 'Operator' })
+        set('TelescopeResultsStruct', { link = 'Structure' })
+        set('TelescopeResultsVariable', { link = 'Identifier' })
+        -- Lazy
+
+        -- Mason
+
+        -- Gitsigns
+
+        ---@param sign 'Delete' | 'Change' | 'Add'
+        local function set_gitsign(sign)
+            set('GitSigns' .. sign, {
+                tty = {
+                    fg = Term.brighten(get('Diff' .. sign).tty.bg),
+                },
+            })
+            set('GitSignsStaged' .. sign, {
+                tty = {
+                    fg = Term.darken(get('GitSigns' .. sign).tty.fg),
+                },
+                gui = {
+                    fg = blend_accent(lookup(Term.darken(get('GitSigns' .. sign).tty.fg)), 30),
+                },
+            })
+        end
+        set_gitsign('Delete')
+        set_gitsign('Change')
+        set_gitsign('Add')
+        set('GitSignsTopdelete', { link = 'GitSignsDelete' })
+        set('GitSignsStagedTopdelete', { link = 'GitSignsStagedDelete' })
+        set('GitSignsChangedelete', { link = 'GitSignsDelete' })
+        set('GitSignsStagedChangedelete', { link = 'GitSignsStagedDelete' })
+
+        -- Indent blankline
+
+        set('IblIndent', {
             tty = {
-                bg = Term.darken(get('DiagnosticHint').tty.fg),
+                fg = indexes.bright.black,
+            },
+        })
+        set('IblScope', {
+            tty = {
+                fg = indexes.normal.white,
             },
         })
 
+        -- Notify
+
+        ---@param kind 'ERROR' | 'WARN' | 'INFO' | 'TRACE' | 'Log'
+        ---@param diagnostic 'Error' | 'Warn' | 'Info' | 'Hint' | 'Ok'
+        local function set_notify(kind, diagnostic)
+            set('Notify' .. kind .. 'Icon', { link = 'DiagnosticSign' .. diagnostic })
+            set('Notify' .. kind .. 'Title', { link = 'Diagnostic' .. diagnostic })
+            set('Notify' .. kind .. 'Body', { link = 'Pmenu' })
+            set('Notify' .. kind .. 'Border', {
+                tty = {
+                    bg = get('Pmenu').tty.bg,
+                    fg = get('Diagnostic' .. diagnostic).tty.fg,
+                },
+                gui = {
+                    bg = get('Pmenu').gui.bg,
+                    fg = get('Pmenu').gui.bg:blend(get('Diagnostic' .. diagnostic).gui.fg, 0.5),
+                },
+            })
+        end
+        set_notify('ERROR', 'Error')
+        set_notify('WARN', 'Warn')
+        set_notify('INFO', 'Ok')
+        set_notify('TRACE', 'Hint')
+        set_notify('Log', 'Info')
+        set('NotifyBackground', { link = 'Pmenu' })
+
+        -- Noice
+
+        ---@param kind '' | 'Calculator' | 'Cmdline' | 'Search' | 'Rename' | 'Filter' | 'Input' | 'Help' | 'Lua'
+        ---@param link string
+        local function set_noice(kind, link)
+            set('NoiceCmdlineIcon' .. kind, { link = link })
+        end
+        set_noice('', 'Special')
+        set_noice('Calculator', 'DiagnosticOk')
+        set_noice('Cmdline', 'Special')
+        set_noice('Search', 'DiagnosticWarn')
+        set_noice('Rename', 'DiagnosticError')
+        set_noice('Filter', 'Keyword')
+        set_noice('Input', 'Special')
+        set_noice('Help', 'DiagnosticOk')
+        set('NoiceCmdlineIconLua', {
+            tty = {
+                fg = indexes.normal.blue,
+            },
+        })
+        set('NoiceCmdlinePopup', { link = 'Pmenu' })
+        set('NoiceCmdlinePopupTitle', { link = 'Special' })
+        set('NoiceCmdlinePopupBorder', { link = 'FloatBorder' })
+        set('NoiceCmdlinePopupBorderSearch', { link = 'NoiceCmdlinePopupBorder' })
+
+        -- WhichKey
+
+        set('WhichKey', { link = 'Special' })
+        set('WhichKeyGroup', { link = 'Keyword' })
+        set('WhichKeyDescription', { link = 'Identifier' })
+        set('WhichKeySeparator', { link = 'Operator' })
+
+        -- Todo
+
+        ---@param kind 'FIX' | 'TODO' | 'HACK' | 'WARN' | 'PERF' | 'NOTE' | 'TEST'
+        ---@param link string
+        local function set_todo(kind, link)
+            set('TodoBg' .. kind, {
+                tty = {
+                    fg = indexes.normal.black,
+                    bg = Term.darken(get(link).tty.fg),
+                    style = {
+                        bold = true,
+                    },
+                },
+            })
+            set('TodoFg' .. kind, {
+                tty = {
+                    fg = get(link).tty.fg,
+                },
+            })
+            set('TodoSign' .. kind, { link = 'TodoFg' .. kind })
+        end
+        set_todo('FIX', 'DiagnosticError')
+        set_todo('TODO', 'DiagnosticInfo')
+        set_todo('HACK', 'DiagnosticOk')
+        set_todo('WARN', 'DiagnosticWarn')
+        set_todo('PERF', 'DiagnosticInfo')
+        set_todo('NOTE', 'DiagnosticHint')
+        set_todo('TEST', 'DiagnosticError')
+        set('Todo', {
+            tty = {
+                fg = Term.darken(get('DiagnosticInfo').tty.fg),
+                style = {
+                    bold = true,
+                },
+            },
+        })
+
+        -- CMP and Drop bar
+
+        set('DropBarCurrentContext', { link = 'Search' })
+        set('DropBarMenuCurrentContext', { link = 'Search' })
+
+        ---@param item string
+        ---@param link string
+        local function set_cmp(item, link)
+            set('CmpItemKind' .. item, { link = link })
+            set('DropBarIconKind' .. item, { link = link })
+        end
+        set_cmp('', 'Keyword')
+        -- Keyword
+        set_cmp('BreakStatement', 'Keyword')
+        set_cmp('CaseStatement', 'Keyword')
+        set_cmp('ContinueStatement', 'Keyword')
+        set_cmp('Keyword', 'Keyword')
+        set_cmp('Statement', 'Statement')
+        set_cmp('IfStatement', 'Conditional')
+        set_cmp('SwitchStatement', 'Conditional')
+        set_cmp('DoStatement', 'Repeat')
+        set_cmp('ForStatement', 'Repeat')
+        set_cmp('WhileStatement', 'Repeat')
+        set_cmp('Copilot', 'Macro')
+        set_cmp('Macro', 'Macro')
+        set_cmp('Snippet', 'Macro')
+        -- Type
+        set_cmp('Class', '@lsp.type.class')
+        set_cmp('Enum', '@lsp.type.enum')
+        set_cmp('EnumMember', '@lsp.type.enumMember')
+        set_cmp('Interface', '@lsp.type.interface')
+        set_cmp('Module', '@lsp.type.namespace')
+        set_cmp('Namespace', '@lsp.type.namespace')
+        set_cmp('Package', '@lsp.type.namespace')
+        set_cmp('Object', '@lsp.type.struct')
+        set_cmp('Struct', '@lsp.type.struct')
+        set_cmp('Type', '@lsp.type.type')
+        set_cmp('TypeParameter', '@lsp.type.typeParameter')
+        -- Variables
+        set_cmp('Array', 'Identifier')
+        set_cmp('Identifier', 'Identifier')
+        set_cmp('Key', 'Identifier')
+        set_cmp('List', 'Identifier')
+        set_cmp('Variable', 'Identifier')
+        set_cmp('Property', '@property')
+        set_cmp('Field', '@property')
+        -- Constant
+        set_cmp('Boolean', 'Boolean')
+        set_cmp('Color', 'String')
+        set_cmp('Constant', 'Constant')
+        set_cmp('Value', 'Constant')
+        set_cmp('Null', '@constant.builtin')
+        set_cmp('Number', 'Number')
+        set_cmp('Unit', 'Number')
+        set_cmp('String', 'String')
+        -- Function
+        set_cmp('Call', 'Function')
+        set_cmp('Event', 'Function')
+        set_cmp('Function', 'Function')
+        set_cmp('Constructor', '@constructor')
+        set_cmp('Method', '@method')
+        set_cmp('Reference', '@text.reference')
+        -- Other
+        set_cmp('Text', '@text')
+        set_cmp('Folder', 'Directory')
+        set_cmp('File', 'Directory')
+        set_cmp('Operator', 'Operator')
+        -- Idk
+        set_cmp('Declaration', 'Keyword')
+        set_cmp('Delete', 'Keyword')
+        set_cmp('Log', 'Keyword')
+        set_cmp('Lsp', 'Keyword')
+        set_cmp('MarkdownH1', '@text.title.1')
+        set_cmp('MarkdownH2', '@text.title.2')
+        set_cmp('MarkdownH3', '@text.title.3')
+        set_cmp('MarkdownH4', '@text.title.4')
+        set_cmp('MarkdownH5', '@text.title.5')
+        set_cmp('MarkdownH6', '@text.title.6')
+        set_cmp('H1Marker', '@text.title.1')
+        set_cmp('H2Marker', '@text.title.2')
+        set_cmp('H3Marker', '@text.title.3')
+        set_cmp('H4Marker', '@text.title.4')
+        set_cmp('H5Marker', '@text.title.5')
+        set_cmp('H6Marker', '@text.title.6')
+        set_cmp('Pair', 'Struct')
+        set_cmp('Repeat', 'Repeat')
+        set_cmp('Scope', 'Keyword')
+        set_cmp('Regex', 'String')
+        set_cmp('Specifier', 'Keyword')
+        set_cmp('Terminal', 'Keyword')
+
         --#endregion
+
+        --#region Files
+
+        set('Directory', {
+            link = 'Keyword',
+        })
+
+        --#endregion
+
+        --#region Text
+
+        set('SpecialKey', { link = 'Keyword' })
+
+        --#endregion
+
 
         -- Text
         set('Title', {
@@ -627,6 +695,8 @@ return function(options)
             },
         })
 
+        set('@lsp.type.comment')
+
         set('@function.macro', { link = 'Function' })
 
         set('@tag.attribute', { link = 'Constant' })
@@ -682,6 +752,9 @@ return function(options)
         set('@type.tag.css', { link = 'Keyword' })
         set('@property.class.css', { link = 'Type' })
         set('@property.id.css', { link = 'Function' })
+
+        -- Python
+        set('@string.documentation', { link = 'Comment' })
 
         -- Default highlights
 
