@@ -1,12 +1,12 @@
 local options_default = require('termcolors.options')
-local generate_highlights = require('termcolors.highlights')
+local highlights = require('termcolors.highlights')
 local setup_plugins = require('termcolors.plugins')
 
 local T = {}
 
 function T.setup(options_user)
     -- Parse options
-    local options = vim.tbl_deep_extend('force', options_default, options_user or {})
+    local options = vim.tbl_extend('force', options_default, options_user or {})
 
     -- Clear highlighting
     vim.cmd('hi clear')
@@ -18,13 +18,12 @@ function T.setup(options_user)
     vim.g.colors_name = 'termcolors'
 
     -- Colorscheme
-    for name, highlight in pairs(generate_highlights(options)) do
+    for name, highlight in pairs(highlights(options)) do
         vim.api.nvim_set_hl(0, name, highlight)
     end
 
     -- Plugins
-    setup_plugins()
+    --setup_plugins()
 end
 
 return T
-
