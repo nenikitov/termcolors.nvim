@@ -125,6 +125,7 @@ return function(options)
         })
         set('FoldColumn', { link = 'SignColumn' })
         set('LineNr', { link = 'Comment' })
+        set('CursorLineNr', {})
         set('WildMenu', { link = 'Visual' })
 
         -- Status line
