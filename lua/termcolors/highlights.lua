@@ -40,12 +40,15 @@ local function lookup(c)
     return palette.indexed[Term.lookup(c)]
 end
 
----@param accent Color.Gui
+---@param accent Color.Gui | nil
 ---@param brightness number | nil
----@return Color.Gui color
+---@return Color.Gui | nil color
 local function blend_accent(accent, brightness)
     if not brightness then
         brightness = 10
+    end
+    if not accent then
+        return nil
     end
 
     local _, _, b_v = lookup(indexes.normal.black):to_hsv()
@@ -56,6 +59,37 @@ end
 ---@param options Options
 ---@return {[string]: HighlightCompiled}
 return function(options)
+    ---@param token OptsPalleteToken
+    ---@return TermLow8
+    local function index_low(token)
+        local group, highlight = token:match([[^(.+)%.(.*)$]])
+        if highlight == 'function' then
+            highlight = 'function_'
+        end
+
+        return Term.indexes.normal[options.palette[group][highlight]]
+    end
+
+    ---@param token OptsPalleteToken
+    ---@param alternate boolean | nil
+    ---@return Term16
+    local function index(token, alternate)
+        ---@type Term16
+        local reg = index_low(token)
+        ---@type Term16
+        local alt = Term.brighten(reg)
+
+        if options.swap_alternate then
+            reg, alt = alt, reg
+        end
+
+        if options.use_alternate then
+            return alternate and alt or reg
+        else
+            return reg
+        end
+    end
+
     return build(palette, function(get, set)
         --#region UI
 
@@ -66,19 +100,21 @@ return function(options)
                 fg = indexes.primary.fg,
             },
         })
-        set('NormalNC', {
-            tty = get('Normal').tty,
-            gui = {
-                bg = palette.primary.bg:darken(0.25),
-            },
-        })
+        if options.darken_inactive then
+            set('NormalNC', {
+                tty = get('Normal').tty,
+                gui = {
+                    bg = palette.primary.bg:darken(0.15),
+                },
+            })
+        end
         set('Visual', {
             tty = {
                 bg = indexes.normal.white,
                 fg = 0,
             },
             gui = {
-                bg = blend_accent(lookup(indexes.normal.blue), 15),
+                bg = blend_accent(lookup(index('ui.visual')), 15),
             },
         })
         set('Error', { link = 'DiagnosticError' })
@@ -95,7 +131,7 @@ return function(options)
         -- Floating menus
         set('Pmenu', {
             tty = {
-                bg = indexes.normal.black,
+                bg = options.popup_background and indexes.normal.black or 'NONE',
             },
         })
         set('PmenuSel', { link = 'Visual' })
@@ -121,11 +157,22 @@ return function(options)
         set('SignColumn', {
             tty = {
                 fg = indexes.normal.white,
+                bg = options.panel_background and indexes.normal.black or 'NONE',
             },
         })
         set('FoldColumn', { link = 'SignColumn' })
-        set('LineNr', { link = 'Comment' })
-        set('CursorLineNr', {})
+        set('LineNr', {
+            tty = {
+                fg = indexes.bright.black,
+                bg = options.panel_background and indexes.normal.black or 'NONE',
+            },
+        })
+        set('CursorLineNr', {
+            tty = {
+                fg = 'NONE',
+                bg = options.panel_background and indexes.normal.black or 'NONE',
+            },
+        })
         set('WildMenu', { link = 'Visual' })
 
         -- Status line
@@ -152,26 +199,37 @@ return function(options)
         -- Other
         set('Search', {
             tty = {
-                bg = indexes.normal.yellow,
+                bg = index_low('ui.search'),
+                fg = indexes.normal.black,
             },
             gui = {
-                bg = blend_accent(lookup(indexes.normal.yellow), 15),
+                bg = blend_accent(lookup(index('ui.search')), 15),
             },
         })
-        set('ColorColumn', {
+        set('IncSearch', {
             tty = {
-                bg = indexes.normal.magenta,
+                bg = get('Search').tty.bg,
+                fg = get('Search').tty.fg,
+                style = {
+                    bold = true,
+                },
             },
             gui = {
-                bg = blend_accent(lookup(indexes.normal.magenta), 15),
+                bg = blend_accent(lookup(index('ui.search')), 30),
+            },
+        })
+        set('CurSearch', { link = 'IncSearch' })
+        set('ColorColumn', {
+            tty = {
+                bg = index_low('ui.accent'),
+            },
+            gui = {
+                bg = blend_accent(lookup(index('ui.accent')), 15),
             },
         })
         set('MatchParen', {
             tty = {
-                fg = indexes.normal.magenta,
-                style = {
-                    bold = true,
-                },
+                fg = index('ui.accent')
             },
         })
         set('Conceal', { link = 'Delimiter' })
@@ -191,7 +249,12 @@ return function(options)
                     fg = color,
                 },
             })
-            set('DiagnosticSign' .. diagnostic, { link = 'Diagnostic' .. diagnostic })
+            set('DiagnosticSign' .. diagnostic, {
+                tty = {
+                    bg = get('SignColumn').tty.bg,
+                    fg = color,
+                },
+            })
             set('DiagnosticUnderline' .. diagnostic, {
                 gui = {
                     sp = get('Diagnostic' .. diagnostic).gui.fg,
@@ -202,20 +265,20 @@ return function(options)
             })
             set('DiagnosticVirtualText' .. diagnostic, {
                 tty = {
-                    fg = get('Diagnostic' .. diagnostic).tty.fg,
                     bg = get('CursorLine').tty.bg,
+                    fg = get('Diagnostic' .. diagnostic).tty.fg,
                 },
                 gui = {
-                    fg = get('Diagnostic' .. diagnostic).gui.fg,
                     bg = blend_accent(lookup(get('Diagnostic' .. diagnostic).tty.fg)),
+                    fg = get('Diagnostic' .. diagnostic).gui.fg,
                 },
             })
         end
-        set_diagnostic('Error', indexes.normal.red)
-        set_diagnostic('Warn', indexes.normal.yellow)
-        set_diagnostic('Info', indexes.normal.blue)
-        set_diagnostic('Hint', indexes.normal.magenta)
-        set_diagnostic('Ok', indexes.normal.green)
+        set_diagnostic('Error', index_low('diagnostic.error'))
+        set_diagnostic('Warn', index_low('diagnostic.warn'))
+        set_diagnostic('Info', index_low('diagnostic.info'))
+        set_diagnostic('Hint', index_low('diagnostic.hint'))
+        set_diagnostic('Ok', index_low('diagnostic.ok'))
         set('SpellBad', { link = 'DiagnosticUnderlineError' })
         set('SpellCap', { link = 'DiagnosticUnderlineWarn' })
         set('SpellLocal', { link = 'DiagnosticUnderlineInfo' })
@@ -337,7 +400,7 @@ return function(options)
         set('TelescopeBorder', { link = 'FloatBorder' })
         set('TelescopeTitle', { link = 'FloatTitle' })
         set('TelescopePromptTitle', { link = 'Special' })
-        set('TelescopeMatching', { link = 'IncSearch' })
+        set('TelescopeMatching', { link = 'Search' })
         set('TelescopePromptPrefix', { link = 'TelescopePromptTitle' })
         set('TelescopeResultsClass', { link = 'Structure' })
         set('TelescopeResultsConstant', { link = 'Constant' })
@@ -357,14 +420,17 @@ return function(options)
         local function set_gitsign(sign)
             set('GitSigns' .. sign, {
                 tty = {
+                    bg = get('SignColumn').tty.bg,
                     fg = Term.brighten(get('Diff' .. sign).tty.bg),
                 },
             })
             set('GitSignsStaged' .. sign, {
                 tty = {
+                    bg = get('SignColumn').tty.bg,
                     fg = Term.darken(get('GitSigns' .. sign).tty.fg),
                 },
                 gui = {
+                    bg = get('SignColumn').gui.bg,
                     fg = blend_accent(lookup(Term.darken(get('GitSigns' .. sign).tty.fg)), 30),
                 },
             })
@@ -395,7 +461,7 @@ return function(options)
         ---@param kind 'ERROR' | 'WARN' | 'INFO' | 'TRACE' | 'Log'
         ---@param diagnostic 'Error' | 'Warn' | 'Info' | 'Hint' | 'Ok'
         local function set_notify(kind, diagnostic)
-            set('Notify' .. kind .. 'Icon', { link = 'DiagnosticSign' .. diagnostic })
+            set('Notify' .. kind .. 'Icon', { link = 'Diagnostic' .. diagnostic })
             set('Notify' .. kind .. 'Title', { link = 'Diagnostic' .. diagnostic })
             set('Notify' .. kind .. 'Body', { link = 'Pmenu' })
             set('Notify' .. kind .. 'Border', {
@@ -591,7 +657,6 @@ return function(options)
         set('SpecialKey', { link = 'Keyword' })
 
         --#endregion
-
 
         -- Text
         set('Title', {

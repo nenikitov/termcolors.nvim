@@ -1,3 +1,25 @@
+---@alias OptsPalleteToken
+--- | 'ui.accent'
+--- | 'ui.normal'
+--- | 'ui.visual'
+--- | 'ui.insert'
+--- | 'ui.replace'
+--- | 'ui.command'
+--- | 'ui.search'
+--- | 'syntax.comment'
+--- | 'syntax.constant'
+--- | 'syntax.identifier'
+--- | 'syntax.function'
+--- | 'syntax.keyword'
+--- | 'syntax.operator'
+--- | 'syntax.type'
+--- | 'syntax.delimiter'
+--- | 'diagnostic.error'
+--- | 'diagnostic.warn'
+--- | 'diagnostic.info'
+--- | 'diagnostic.hint'
+--- | 'diagnostic.ok'
+
 ---@alias OptsColor 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white'
 ---@alias OptsColorPartial OptsColor | nil
 
@@ -5,7 +27,8 @@
 ---@field accent OptsColor
 ---@field normal OptsColor
 ---@field visual OptsColor
----@field insert OptsColor @field replace OptsColor
+---@field insert OptsColor
+---@field replace OptsColor
 ---@field command OptsColor
 ---@field search OptsColor
 ---@class OptsUiPartial
@@ -58,21 +81,21 @@
 ---@field syntax OptsSyntaxPartial
 ---@field diagnostic OptsDiagnosticPartial
 
----@alias OptsUseAlternate
---- | false Do not highlight.
---- | 'regular' Highlight.
---- | 'swap' Highlight and swap dark and bright.
-
 ---@class Options
 ---@field palette OptsPalette
----@field use_alternate OptsUseAlternate
+---@field use_alternate boolean
+---@field swap_alternate boolean
 ---@field popup_background boolean
+---@field panel_background boolean | nil
 ---@field darken_inactive boolean
 ---@class OptionsPartial
 ---@field palette OptsPalettePartial
----@field use_alternate OptsUseAlternate | nil
+---@field use_alternate boolean | nil
+---@field swap_alternate boolean | nil
 --- Whether to highlight alternate versions of a token using different brightnesses.
 --- For example, with this option, `if` and `function` keywords will be highlight in differently.
+---@field panel_background boolean | nil
+--- Whether to add background to panels.
 ---@field popup_background boolean | nil
 --- Whether to add background to popups.
 ---@field darken_inactive boolean | nil
@@ -82,54 +105,36 @@
 local options = {
     palette = {
         ui = {
-            ---@type OptsColor
             accent = 'magenta',
-            ---@type OptsColor
             normal = 'magenta',
-            ---@type OptsColor
             visual = 'blue',
-            ---@type OptsColor
             insert = 'cyan',
-            ---@type OptsColor
             replace = 'red',
-            ---@type OptsColor
             command = 'green',
-            ---@type OptsColor
             search = 'yellow',
         },
         syntax = {
-            ---@type OptsColor
             comment = 'black',
-            ---@type OptsColor
             constant = 'green',
-            ---@type OptsColor
             identifier = 'red',
-            ---@type OptsColor
             function_ = 'cyan',
-            ---@type OptsColor
             keyword = 'magenta',
-            ---@type OptsColor
             operator = 'white',
-            ---@type OptsColor
             type = 'yellow',
-            ---@type OptsColor
             delimiter = 'black',
         },
         diagnostic = {
-            ---@type OptsColor
             error = 'red',
-            ---@type OptsColor
             warn = 'yellow',
-            ---@type OptsColor
             info = 'blue',
-            ---@type OptsColor
             hint = 'magenta',
-            ---@type OptsColor
             ok = 'green',
         },
     },
-    use_alternate = 'regular',
-    popup_background = true,
+    use_alternate = true,
+    swap_alternate = false,
+    popup_background = false,
+    panel_background = false,
     darken_inactive = true,
 }
 
