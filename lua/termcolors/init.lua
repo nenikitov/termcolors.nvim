@@ -23,7 +23,7 @@ function T.setup(options_user)
     end
 
     -- Plugins
-    setup_plugins()
+    --setup_plugins()
 end
 
 return T
