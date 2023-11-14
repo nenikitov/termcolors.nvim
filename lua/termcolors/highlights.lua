@@ -125,11 +125,6 @@ return function(options)
         })
         set('FoldColumn', { link = 'SignColumn' })
         set('LineNr', { link = 'Comment' })
-        set('CursorLineNr', {
-            tty = {
-                bg = get('CursorLine').tty.bg,
-            },
-        })
         set('WildMenu', { link = 'Visual' })
 
         -- Status line
