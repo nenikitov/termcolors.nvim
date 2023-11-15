@@ -1,5 +1,6 @@
 ---@alias OptsPalleteToken
 --- | 'ui.accent'
+--- | 'ui.split'
 --- | 'ui.normal'
 --- | 'ui.visual'
 --- | 'ui.insert'
@@ -25,6 +26,7 @@
 
 ---@class OptsUi
 ---@field accent OptsColor
+---@field split OptsColor
 ---@field normal OptsColor
 ---@field visual OptsColor
 ---@field insert OptsColor
@@ -33,6 +35,7 @@
 ---@field search OptsColor
 ---@class OptsUiPartial
 ---@field accent OptsColorPartial
+---@field split OptsColorPartial
 ---@field normal OptsColorPartial
 ---@field visual OptsColorPartial
 ---@field insert OptsColorPartial
@@ -106,6 +109,7 @@ local options = {
     palette = {
         ui = {
             accent = 'magenta',
+            split = 'white',
             normal = 'magenta',
             visual = 'blue',
             insert = 'cyan',

@@ -1,6 +1,5 @@
 local Color = require('highlight_builder').color.Gui
 local Term = require('highlight_builder').color.Term
-local indexes = Term.indexes
 
 local build = require('highlight_builder').build
 
@@ -51,7 +50,7 @@ local function blend_accent(accent, brightness)
         return nil
     end
 
-    local _, _, b_v = lookup(indexes.normal.black):to_hsv()
+    local _, _, b_v = lookup(Term.indexes.normal.black):to_hsv()
     local a_h, a_s, _ = accent:to_hsv()
     return Color.from_hsv(a_h, a_s, b_v):brighten(brightness)
 end
@@ -72,8 +71,9 @@ return function(options)
 
     ---@param token OptsPalleteToken
     ---@param alternate boolean | nil
+    ---@param force_use_alternative boolean | nil
     ---@return Term16
-    local function index(token, alternate)
+    local function index(token, alternate, force_use_alternative)
         ---@type Term16
         local reg = index_low(token)
         ---@type Term16
@@ -83,7 +83,7 @@ return function(options)
             reg, alt = alt, reg
         end
 
-        if options.use_alternate then
+        if options.use_alternate or force_use_alternative then
             return alternate and alt or reg
         else
             return reg
@@ -96,8 +96,8 @@ return function(options)
         -- Main
         set('Normal', {
             tty = {
-                bg = indexes.primary.bg,
-                fg = indexes.primary.fg,
+                bg = Term.indexes.primary.bg,
+                fg = Term.indexes.primary.fg,
             },
         })
         if options.darken_inactive then
@@ -110,7 +110,7 @@ return function(options)
         end
         set('Visual', {
             tty = {
-                bg = indexes.normal.white,
+                bg = Term.indexes.normal.white,
                 fg = 0,
             },
             gui = {
@@ -124,14 +124,14 @@ return function(options)
         -- Splits
         set('VertSplit', {
             tty = {
-                fg = indexes.bright.black,
+                fg = index('ui.split', true, true),
             },
         })
 
         -- Floating menus
         set('Pmenu', {
             tty = {
-                bg = options.popup_background and indexes.normal.black or 'NONE',
+                bg = options.popup_background and Term.indexes.normal.black or 'NONE',
             },
         })
         set('PmenuSel', { link = 'Visual' })
@@ -147,7 +147,7 @@ return function(options)
         -- Cursor
         set('CursorLine', {
             tty = {
-                bg = indexes.normal.black,
+                bg = Term.indexes.normal.black,
             },
         })
         set('CursorColumn', { link = 'CursorLine' })
@@ -156,21 +156,21 @@ return function(options)
         -- Gutter
         set('SignColumn', {
             tty = {
-                fg = indexes.normal.white,
-                bg = options.panel_background and indexes.normal.black or 'NONE',
+                fg = 'NONE',
+                bg = options.panel_background and Term.indexes.normal.black or 'NONE',
             },
         })
         set('FoldColumn', { link = 'SignColumn' })
         set('LineNr', {
             tty = {
-                fg = indexes.bright.black,
-                bg = options.panel_background and indexes.normal.black or 'NONE',
+                fg = Term.indexes.bright.black,
+                bg = options.panel_background and Term.indexes.normal.black or 'NONE',
             },
         })
         set('CursorLineNr', {
             tty = {
                 fg = 'NONE',
-                bg = options.panel_background and indexes.normal.black or 'NONE',
+                bg = options.panel_background and Term.indexes.normal.black or 'NONE',
             },
         })
         set('WildMenu', { link = 'Visual' })
@@ -178,18 +178,18 @@ return function(options)
         -- Status line
         set('StatusLine', {
             tty = {
-                bg = indexes.normal.white,
-                fg = indexes.normal.black,
+                bg = Term.indexes.normal.white,
+                fg = Term.indexes.normal.black,
             },
             gui = {
-                bg = lookup(indexes.bright.black),
-                fg = lookup(indexes.bright.white),
+                bg = lookup(Term.indexes.bright.black),
+                fg = lookup(Term.indexes.bright.white),
             },
         })
         set('StatusLineNC', {
             tty = {
-                bg = indexes.normal.black,
-                fg = indexes.normal.white,
+                bg = Term.indexes.normal.black,
+                fg = Term.indexes.normal.white,
             },
         })
         set('TabLineFill', { link = 'StatusLineNC' })
@@ -200,7 +200,7 @@ return function(options)
         set('Search', {
             tty = {
                 bg = index_low('ui.search'),
-                fg = indexes.normal.black,
+                fg = Term.indexes.normal.black,
             },
             gui = {
                 bg = blend_accent(lookup(index('ui.search')), 15),
@@ -229,7 +229,7 @@ return function(options)
         })
         set('MatchParen', {
             tty = {
-                fg = index('ui.accent')
+                fg = index('ui.accent'),
             },
         })
         set('Conceal', { link = 'Delimiter' })
@@ -313,42 +313,56 @@ return function(options)
 
         --#region Syntax
 
+        -- NonText
+        set('Comment', {
+            tty = {
+                fg = index('syntax.comment', true, true),
+            },
+            gui = {
+                fg = lookup(index('syntax.comment', true, true)),
+                style = {
+                    italic = true,
+                },
+            },
+        })
+        set('NonText', { link = 'Comment' })
+
         -- Constants
         set('Constant', {
             tty = {
-                fg = indexes.normal.green,
+                fg = index('syntax.constant'),
             },
         })
         set('String', {
             tty = {
-                fg = Term.brighten(get('Constant').tty.fg),
+                fg = index('syntax.constant', true),
             },
         })
 
         -- Code
         set('Identifier', {
             tty = {
-                fg = indexes.normal.red,
+                fg = index('syntax.identifier'),
             },
         })
         set('Function', {
             tty = {
-                fg = indexes.normal.cyan,
+                fg = index('syntax.function'),
             },
         })
 
         -- Keywords
         set('Statement', {
             tty = {
-                fg = indexes.bright.magenta,
+                fg = index('syntax.keyword', true),
             },
         })
         set('Keyword', {
             tty = {
-                fg = Term.darken(get('Statement').tty.fg),
+                fg = index('syntax.keyword'),
             },
             gui = {
-                fg = lookup(Term.darken(get('Statement').tty.fg)),
+                fg = lookup(index('syntax.keyword')),
                 style = {
                     italic = true,
                 },
@@ -356,7 +370,7 @@ return function(options)
         })
         set('Operator', {
             tty = {
-                fg = indexes.normal.white,
+                fg = index('syntax.operator'),
             },
         })
 
@@ -366,7 +380,7 @@ return function(options)
         -- Types
         set('Type', {
             tty = {
-                fg = indexes.bright.yellow,
+                fg = index('syntax.type'),
             },
         })
         set('StorageClass', { link = 'Keyword' })
@@ -376,7 +390,7 @@ return function(options)
         set('Tag', { link = 'Identifier' })
         set('Delimiter', {
             tty = {
-                fg = indexes.bright.black,
+                fg = index('syntax.delimiter', true, true),
             },
         })
         set('Noise', { link = 'Delimiter' })
@@ -401,7 +415,7 @@ return function(options)
         set('TelescopeTitle', { link = 'FloatTitle' })
         set('TelescopePromptTitle', { link = 'Special' })
         set('TelescopeMatching', { link = 'Search' })
-        set('TelescopePromptPrefix', { link = 'TelescopePromptTitle' })
+        set('TelescopePromptPrefix', { link = 'NoiceCmdlineIconSearch' })
         set('TelescopeResultsClass', { link = 'Structure' })
         set('TelescopeResultsConstant', { link = 'Constant' })
         set('TelescopeResultsField', { link = '@field' })
@@ -447,12 +461,12 @@ return function(options)
 
         set('IblIndent', {
             tty = {
-                fg = indexes.bright.black,
+                fg = Term.indexes.bright.black,
             },
         })
         set('IblScope', {
             tty = {
-                fg = indexes.normal.white,
+                fg = Term.indexes.normal.white,
             },
         })
 
@@ -489,17 +503,45 @@ return function(options)
         local function set_noice(kind, link)
             set('NoiceCmdlineIcon' .. kind, { link = link })
         end
-        set_noice('', 'Special')
-        set_noice('Calculator', 'DiagnosticOk')
-        set_noice('Cmdline', 'Special')
-        set_noice('Search', 'DiagnosticWarn')
-        set_noice('Rename', 'DiagnosticError')
-        set_noice('Filter', 'Keyword')
-        set_noice('Input', 'Special')
-        set_noice('Help', 'DiagnosticOk')
+        set('NoiceCmdlineIcon', { link = 'Special' })
+        set('NoiceCmdlineIconCalculator', {
+            tty = {
+                fg = index('ui.command', true, true),
+            },
+        })
+        set('NoiceCmdlineIconCmdline', {
+            tty = {
+                fg = index('ui.command'),
+            },
+        })
+        set('NoiceCmdlineIconSearch', {
+            tty = {
+                fg = index('ui.search'),
+            },
+        })
+        set('NoiceCmdlineIconRename', {
+            tty = {
+                fg = index('ui.replace'),
+            },
+        })
+        set('NoiceCmdlineIconFilter', {
+            tty = {
+                fg = index('ui.command', true, true),
+            },
+        })
+        set('NoiceCmdlineIconInput', {
+            tty = {
+                fg = index('ui.insert'),
+            },
+        })
+        set('NoiceCmdlineIconHelp', {
+            tty = {
+                fg = index('ui.insert', true, true),
+            },
+        })
         set('NoiceCmdlineIconLua', {
             tty = {
-                fg = indexes.normal.blue,
+                fg = index('ui.command', true, true),
             },
         })
         set('NoiceCmdlinePopup', { link = 'Pmenu' })
@@ -521,7 +563,7 @@ return function(options)
         local function set_todo(kind, link)
             set('TodoBg' .. kind, {
                 tty = {
-                    fg = indexes.normal.black,
+                    fg = Term.indexes.normal.black,
                     bg = Term.darken(get(link).tty.fg),
                     style = {
                         bold = true,
@@ -555,6 +597,8 @@ return function(options)
 
         set('DropBarCurrentContext', { link = 'Search' })
         set('DropBarMenuCurrentContext', { link = 'Search' })
+        set('DropBarIconUIIndicator', { link = 'TelescopeNormal' })
+        set('DropBarIconUISeparator', { link = 'WhichKeySeparator' })
 
         ---@param item string
         ---@param link string
@@ -661,10 +705,10 @@ return function(options)
         -- Text
         set('Title', {
             tty = {
-                fg = indexes.normal.magenta,
+                fg = Term.indexes.normal.magenta,
             },
             gui = {
-                fg = lookup(indexes.normal.magenta),
+                fg = lookup(Term.indexes.normal.magenta),
                 style = {
                     bold = true,
                 },
@@ -672,10 +716,10 @@ return function(options)
         })
         set('@text.emphasis', {
             tty = {
-                fg = indexes.normal.cyan,
+                fg = Term.indexes.normal.cyan,
             },
             gui = {
-                fg = lookup(indexes.normal.cyan),
+                fg = lookup(Term.indexes.normal.cyan),
                 style = {
                     italic = true,
                 },
@@ -683,10 +727,10 @@ return function(options)
         })
         set('@text.strong', {
             tty = {
-                fg = indexes.normal.green,
+                fg = Term.indexes.normal.green,
             },
             gui = {
-                fg = lookup(indexes.normal.green),
+                fg = lookup(Term.indexes.normal.green),
                 style = {
                     bold = true,
                 },
@@ -694,10 +738,10 @@ return function(options)
         })
         set('@text.strike', {
             tty = {
-                fg = indexes.normal.red,
+                fg = Term.indexes.normal.red,
             },
             gui = {
-                fg = lookup(indexes.normal.red),
+                fg = lookup(Term.indexes.normal.red),
                 style = {
                     underdouble = true,
                 },
@@ -705,15 +749,15 @@ return function(options)
         })
         set('@text.reference', {
             tty = {
-                fg = indexes.normal.yellow,
+                fg = Term.indexes.normal.yellow,
             },
         })
         set('@text.uri', {
             tty = {
-                fg = indexes.bright.yellow,
+                fg = Term.indexes.bright.yellow,
             },
             gui = {
-                fg = lookup(indexes.bright.yellow),
+                fg = lookup(Term.indexes.bright.yellow),
                 style = {
                     underline = true,
                 },
@@ -721,21 +765,16 @@ return function(options)
         })
         set('@text.quote', {
             tty = {
-                fg = indexes.bright.yellow,
+                fg = Term.indexes.bright.yellow,
             },
         })
         set('@text.literal', {
             tty = {
-                fg = indexes.normal.yellow,
+                fg = Term.indexes.normal.yellow,
             },
         })
         set('@text.environment', { link = 'Keyword' })
         set('@text.environment.name', { link = 'Constant' })
-        set('NonText', {
-            tty = {
-                fg = indexes.bright.black,
-            },
-        })
 
         -- Markdown
         set('@punctuation.delimiter.markdown')
@@ -744,17 +783,6 @@ return function(options)
         set('@lsp.type.class.markdown', { link = '@text.uri' })
 
         -- Syntax
-        set('Comment', {
-            tty = {
-                fg = indexes.bright.black,
-            },
-            gui = {
-                fg = lookup(indexes.bright.black),
-                style = {
-                    italic = true,
-                },
-            },
-        })
 
         set('@lsp.type.comment')
 
@@ -818,7 +846,7 @@ return function(options)
         set('@string.documentation', { link = 'Comment' })
 
         -- Default highlights
-
+        --[[
         -- Lua
         set('luaStatement', { link = 'Keyword' })
         set('luaTable', { link = '@constructor' })
@@ -905,5 +933,6 @@ return function(options)
         set('yamlKeyValueDelimiter', { link = 'Delimiter' })
         set('yamlPlainScalar', { link = 'String' })
         set('yamlAnchor', { link = '@type' })
+        ]]
     end)
 end
