@@ -45,6 +45,14 @@ return function()
                         transitional_lualine_a_command_to_lualine_c = 'LuaLineCommandAC',
                         transitional_lualine_b_command_to_lualine_c = 'LuaLineCommandBC',
                     },
+                    terminal = {
+                        a = 'LuaLineTerminalA',
+                        b = 'LuaLineTerminalB',
+                        c = 'LuaLineTerminalC',
+                        transitional_lualine_a_terminal_to_lualine_b = 'LuaLineTerminalAB',
+                        transitional_lualine_a_terminal_to_lualine_c = 'LuaLineTerminalAC',
+                        transitional_lualine_b_terminal_to_lualine_c = 'LuaLineTerminalBC',
+                    },
                     inactive = {
                         a = 'LuaLineInactiveA',
                         b = 'LuaLineInactiveB',

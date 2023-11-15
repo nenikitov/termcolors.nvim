@@ -56,7 +56,6 @@ local function blend_accent(accent, brightness)
 end
 
 ---@param options Options
----@return {[string]: HighlightCompiled}
 return function(options)
     ---@param token OptsPalleteToken
     ---@return TermLow8
@@ -424,6 +423,7 @@ return function(options)
         set('TelescopeResultsOperator', { link = 'Operator' })
         set('TelescopeResultsStruct', { link = 'Structure' })
         set('TelescopeResultsVariable', { link = 'Identifier' })
+
         -- Lazy
 
         -- Mason
@@ -548,6 +548,59 @@ return function(options)
         set('NoiceCmdlinePopupTitle', { link = 'Special' })
         set('NoiceCmdlinePopupBorder', { link = 'FloatBorder' })
         set('NoiceCmdlinePopupBorderSearch', { link = 'NoiceCmdlinePopupBorder' })
+
+        -- LuaLine
+
+        ---@param kind 'normal' | 'insert' | 'visual' | 'command' | 'terminal' | 'replace' | 'inactive'
+        ---@param color Term16
+        local function set_lualine(kind, color)
+            set('lualine_a_' .. kind, {
+                tty = {
+                    bg = Term.darken(color),
+                    fg = Term.indexes.normal.black,
+                    style = {
+                        bold = false,
+                    },
+                },
+                gui = {
+                    bg = lookup(color),
+                    fg = lookup(Term.indexes.normal.black),
+                    style = {
+                        bold = true,
+                    },
+                },
+            }, true)
+            set('lualine_b_' .. kind, {
+                tty = {
+                    bg = 'NONE',
+                    fg = get('lualine_a_' .. kind).tty.bg,
+                },
+                gui = {
+                    bg = blend_accent(lookup(Term.indexes.bright.black), 5),
+                    fg = lookup(get('lualine_a_' .. kind).tty.bg),
+                    style = {
+                        bold = true,
+                    },
+                },
+            }, true)
+            set('lualine_c_' .. kind, {
+                tty = {
+                    bg = 'NONE',
+                    fg = Term.indexes.normal.white,
+                },
+                gui = {
+                    bg = lookup(Term.indexes.normal.black),
+                    fg = lookup(Term.indexes.normal.white),
+                },
+            }, true)
+        end
+        set_lualine('normal', index_low('ui.normal'))
+        set_lualine('insert', index_low('ui.insert'))
+        set_lualine('visual', index_low('ui.visual'))
+        set_lualine('command', index_low('ui.command'))
+        set_lualine('terminal', index('ui.command', true, true))
+        set_lualine('replace', index_low('ui.replace'))
+        set_lualine('inactive', Term.indexes.normal.white)
 
         -- WhichKey
 
