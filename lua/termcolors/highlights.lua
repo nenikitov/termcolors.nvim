@@ -103,7 +103,7 @@ return function(options)
             set('NormalNC', {
                 tty = get('Normal').tty,
                 gui = {
-                    bg = palette.primary.bg:darken(0.15),
+                    bg = palette.primary.bg:darken(0.2),
                 },
             })
         end
@@ -572,7 +572,7 @@ return function(options)
             }, true)
             set('lualine_b_' .. kind, {
                 tty = {
-                    bg = 'NONE',
+                    bg = Term.indexes.normal.black,
                     fg = get('lualine_a_' .. kind).tty.bg,
                 },
                 gui = {
